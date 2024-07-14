@@ -20,7 +20,7 @@ plugins {
 rootProject.name = 'ModSuite'
 
 void includeSubpart(var main, var sub)  {
-    def path = sub == null ? "./$main" : "./$main/$sub";
+    def path = sub == null ? "./$main/" : "./$main/$sub/";
     if (!file(path).exists())
         return
     def name = sub==null?":$main":":$main:$sub"

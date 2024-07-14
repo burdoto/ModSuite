@@ -1,12 +1,17 @@
 *.*
-
 !.gitignore
-!gradlew
-!gradlew.bat
+
+# ide environment
+!.run/
+!.run/**.run.xml
+
+# gradle environment
+!gradle/wrapper/**
+!gradle.properties
 !settings.gradle
 !build.gradle
-!gradle.properties
-!gradle/wrapper/gradle-wrapper.jar
-!gradle/wrapper/gradle-wrapper.properties
+!gradlew.bat
+!gradlew
 
+# configuration files
 !lombok.config

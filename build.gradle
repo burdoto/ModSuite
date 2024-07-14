@@ -1,3 +1,62 @@
-allprojects {
-    apply plugin: 'idea'
+plugins {
+    id "de.undercouch.download" version "5.5.0"
 }
+
+class FileRequirement {
+    final def name
+    final def serverType
+    final def subDir
+    final def url
+
+    FileRequirement(name, serverType, subDir, url) {
+        this.name = name
+        this.serverType = serverType
+        this.subDir = subDir
+        this.url = url
+    }
+}
+
+def required = List.of(
+        new FileRequirement("spigot", "spigot", null, "https://download.getbukkit.org/spigot/spigot-1.20.1.jar"),
+        new FileRequirement("paper", "spigot", null, "https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/196/downloads/paper-1.20.1-196.jar"),
+        new FileRequirement("arclight", "spigot", null, "https://github.com/IzzelAliz/Arclight/releases/download/Trials%2F1.0.5/arclight-forge-1.20.1-1.0.5.jar"),
+        new FileRequirement("luckperms", "spigot", "plugins", "https://download.luckperms.net/1552/bukkit/loader/LuckPerms-Bukkit-5.4.137.jar"),
+        new FileRequirement("spark", "spigot", "plugins", "https://ci.lucko.me/job/spark/419/artifact/spark-bukkit/build/libs/spark-1.10.74-bukkit.jar"),
+        new FileRequirement("fabric", "fabric", null, "https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.16.0/1.0.1/server/jar"),
+        new FileRequirement("fabric-api", "fabric", "mods", "https://mediafilez.forgecdn.net/files/${fabric_api_mod_cf}"),
+        new FileRequirement("owolib", "fabric", "mods", "https://mediafilez.forgecdn.net/files/4573/684/owo-lib-0.11.0%2B1.20.jar"),
+        new FileRequirement("luckperms", "fabric", "mods", "https://cdn.modrinth.com/data/Vebnzrzj/versions/7PNj6nCm/LuckPerms-Fabric-5.4.102.jar"),
+        new FileRequirement("spark", "fabric", "mods", "https://cdn.modrinth.com/data/l6YH9Als/versions/XGW2fviP/spark-1.10.53-fabric.jar"),
+)
+def dlTasks = required.collect { req ->
+    def taskName = "download${req.serverType.capitalize()}${req.name.replaceAll('-', '').capitalize()}Jar"
+    def subDir = req.subDir == null ? "" : "/$req.subDir"
+    tasks.register(taskName, Download).configure {
+        src req.url
+        dest "$rootDir/run/$req.serverType$subDir/${req.name}.jar"
+    }
+    return tasks.named(taskName)
+}
+
+tasks.register('downloadRequirements') {
+    dependsOn dlTasks
+}
+
+subprojects.forEach { evaluationDependsOn it.path }
+
+void collectedPluginTask(String key, String type, String taskName) {
+    def projects = allprojects.findAll { it.name == key }
+    def tasks = projects.collect { it.tasks.named(taskName).get() }
+
+    tasks.forEach { task ->
+        task.project.tasks.register("prepare${key.capitalize()}Test", Copy) {
+            dependsOn task
+            from task.collect { it.outputs.files.singleFile }
+            into "$rootDir/run/$key/$type"
+            rename { n -> "$task.project.parent.name-${key}.jar" }
+        }
+    }
+}
+
+collectedPluginTask('spigot', 'plugins', 'shadowJar')
+collectedPluginTask('fabric', 'mods', 'remappedShadowJar')

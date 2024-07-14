@@ -1,0 +1,13 @@
+*.*
+
+# server related files
+!*/eula.txt
+
+# configs
+!spigot/plugins/LibMod/config.yml
+!spigot/plugins/BanMod/config.yml
+!spigot/plugins/WorldMod/config.yml
+
+!fabric/config/config-libMod.json5
+!fabric/config/config-banMod.json5
+!fabric/config/config-worldMod.json5
