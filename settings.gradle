@@ -27,6 +27,8 @@ void includeSubpart(var main, var sub)  {
 }
 
 void includeMod(var key) {
+    if (!file("./$key/").exists())
+        return
     includeSubpart(key, 'api')
     includeSubpart(key, 'core')
     includeSubpart(key, 'spigot')
@@ -35,6 +37,7 @@ void includeMod(var key) {
 
 includeMod('LibMod')
 includeMod('BanMod')
+includeMod('WorldMod')
 
 var dirApi = file('../java/japi/')
 if (!dirApi.exists())
