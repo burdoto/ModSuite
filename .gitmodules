@@ -1,0 +1,9 @@
+[submodule "LibMod"]
+	path = LibMod
+	url = https://github.com/AMPZNetwork/LibMod
+[submodule "BanMod"]
+	path = BanMod
+	url = https://github.com/AMPZNetwork/BanMod
+[submodule "WorldMod"]
+	path = WorldMod
+	url = https://github.com/AMPZNetwork/WorldMod
