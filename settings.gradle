@@ -1,0 +1,47 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        mavenCentral()
+        gradlePluginPortal()
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
+rootProject.name = 'ModSuite'
+
+void includeSubpart(var main, var sub)  {
+    def name = sub==null?":$main":":$main:$sub"
+    include(name)
+    def project = project(name)
+    project.projectDir = file(sub==null?"./$main":"./$main/$sub")
+}
+
+void includeMod(var key) {
+    includeSubpart(key, 'api')
+    includeSubpart(key, 'core')
+    includeSubpart(key, 'spigot')
+    includeSubpart(key, 'fabric')
+}
+
+includeMod('LibMod')
+includeMod('BanMod')
+
+var dirApi = file('../java/japi/')
+if (!dirApi.exists())
+    dirApi = file('../java/api')
+if (!dirApi.exists())
+    dirApi = file('../japi')
+if (dirApi.exists()) {
+    include(':japi')
+    project(':japi').projectDir = dirApi
+}
