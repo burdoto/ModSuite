@@ -4,12 +4,12 @@ pluginManagement {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
-        mavenCentral()
-        gradlePluginPortal()
         maven {
             name = 'MinecraftForge'
             url = 'https://maven.minecraftforge.net/'
         }
+        mavenCentral()
+        gradlePluginPortal()
     }
 }
 
@@ -34,8 +34,13 @@ void includeMod(var key) {
         return
     includeSubpart(key, 'api')
     includeSubpart(key, 'core')
+
+    includeSubpart(key, 'compile-forge')
+    includeSubpart(key, 'compile-fabric')
+
     includeSubpart(key, 'spigot')
     includeSubpart(key, 'fabric')
+    includeSubpart(key, 'forge')
 }
 
 includeMod('LibMod')
