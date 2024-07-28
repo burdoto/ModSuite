@@ -19,26 +19,38 @@ plugins {
 
 rootProject.name = 'ModSuite'
 
-void includeSubpart(var main, var sub)  {
+boolean includeSubpart(var main, var sub)  {
     def path = sub == null ? "./$main/" : "./$main/$sub/";
     if (!file(path).exists())
-        return
+        return false
     def name = sub==null?":$main":":$main:$sub"
     include(name)
     def project = project(name)
     project.projectDir = file(path)
+    return true
 }
 
 void includeMod(var key) {
     if (!file("./$key/").exists())
         return
-    includeSubpart(key, 'api')
-    includeSubpart(key, 'core')
-    includeSubpart(key, 'spigot')
-    includeSubpart(key, 'fabric')
+    boolean any = false
+    // compile dependency modules
+    any = any | includeSubpart(key, 'compile-forge')
+    any = any | includeSubpart(key, 'compile-fabric')
+
+    // mod modules
+    any = any | includeSubpart(key, 'api')
+    any = any | includeSubpart(key, 'core')
+    any = any | includeSubpart(key, 'spigot')
+    any = any | includeSubpart(key, 'forge')
+    any = any | includeSubpart(key, 'fabric')
+
+    if (!any) // is single part mod
+        includeSubpart(key, null)
 }
 
 includeMod('LibMod')
+includeMod('LagMod')
 includeMod('BanMod')
 includeMod('WorldMod')
 
