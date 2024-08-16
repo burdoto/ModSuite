@@ -21,13 +21,13 @@ def required = List.of(
         new FileRequirement("paper", "spigot", null, "https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/196/downloads/paper-1.20.1-196.jar"),
         new FileRequirement("arclight", "spigot", null, "https://github.com/IzzelAliz/Arclight/releases/download/Trials%2F1.0.5/arclight-forge-1.20.1-1.0.5.jar"),
         new FileRequirement("luckperms", "spigot", "plugins", "https://download.luckperms.net/1552/bukkit/loader/LuckPerms-Bukkit-5.4.137.jar"),
-        new FileRequirement("spark", "spigot", "plugins", "https://ci.lucko.me/job/spark/lastSuccessfulBuild/artifact/spark-bukkit/build/libs/spark-1.10.86-bukkit.jar"),
+        new FileRequirement("spark", "spigot", "plugins", "https://ci.lucko.me/job/spark/lastBuild/artifact/spark-bukkit/build/libs/spark-1.10.93-bukkit.jar"),
 
         new FileRequirement("fabric", "fabric", null, "https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.16.0/1.0.1/server/jar"),
         new FileRequirement("fabric-api", "fabric", "mods", "https://mediafilez.forgecdn.net/files/${fabric_api_mod_cf}"),
         new FileRequirement("owolib", "fabric", "mods", "https://mediafilez.forgecdn.net/files/4573/684/owo-lib-0.11.0%2B1.20.jar"),
         new FileRequirement("luckperms", "fabric", "mods", "https://cdn.modrinth.com/data/Vebnzrzj/versions/7PNj6nCm/LuckPerms-Fabric-5.4.102.jar"),
-        new FileRequirement("spark", "fabric", "mods", "https://cdn.modrinth.com/data/l6YH9Als/versions/XGW2fviP/spark-1.10.53-fabric.jar"),
+        new FileRequirement("spark", "fabric", "mods", "https://ci.lucko.me/job/spark/lastBuild/artifact/spark-fabric/build/libs/spark-1.10.93-fabric.jar"),
 )
 def dlTasks = required.collect { req ->
     def taskName = "download${req.serverType.capitalize()}${req.name.replaceAll('-', '').capitalize()}Jar"
@@ -47,26 +47,44 @@ subprojects.forEach { evaluationDependsOn it.path }
 
 void collectedPluginTask(String key, String type, String taskName) {
     def projects = allprojects.findAll { it.name == key }
-    def tasks = projects.collect { it.tasks.named(taskName).get() }
-    int c = 0
-    tasks.forEach { task ->
+    def relatedTasks = projects.collect { it.tasks.named(taskName).get() }
+    relatedTasks.collect { task ->
         task.project.tasks.register("prepare${key.capitalize()}Test", Copy) {
             dependsOn task
             from task.collect { it.outputs.files.singleFile }
             into "$rootDir/run/$key/$type"
             rename { n -> "$task.project.parent.name-${key}.jar" }
         }
-        rootProject.tasks.register("collect${key.capitalize()}Artifact${++c}", Copy) {
-            dependsOn task
-            from task.collect { it.outputs.files.singleFile }
-            into "$rootDir/build/collectiveOutput"
-            rename { n -> "$task.project.parent.name-${key}.jar" }
-        }
-    }
-    rootProject.tasks.register("collect${key.capitalize()}") {
-        it.dependsOn = rootProject.tasks.collect { it.name.startsWith('collect') && it.name.indexOf('Artifact') != -1 }
     }
 }
 
 collectedPluginTask('spigot', 'plugins', 'shadowJar')
 collectedPluginTask('fabric', 'mods', 'remappedShadowJar')
+/*
+        .collect { source ->
+            tasks.register("collectFrom${source.get().project.parent.name.capitalize()}${source.name.capitalize()}", Copy) {
+                dependsOn source
+                from source.collect { it.get().outputs.files.singleFile }
+                into "$rootDir/build/collect"
+                rename { n -> "${source.get().project.parent.name}-${key}.jar" }
+            }
+        }
+tasks.register('collectEverything') {
+    it.dependsOn = collectTasks
+}
+ */
+
+subprojects {
+    dependencies {
+        // elevate LibMod parts
+        for (String sub : new String[]{'api','core','spigot','forge','fabric'}) {
+            print ":$parent.name:$project.name -> $sub: "
+            if (parent.name != 'LibMod' && project.name == sub) {
+                api project(':LibMod:' + sub)
+                println 'yes'
+            } else println 'no'
+        }
+        if (parent.name != 'LibMod' && project.name == 'api')
+            compileOnly project(':LibMod:core')
+    }
+}
