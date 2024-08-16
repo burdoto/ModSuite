@@ -52,6 +52,7 @@ void includeMod(var key) {
 includeMod('LibMod')
 includeMod('LagMod')
 includeMod('BanMod')
+includeMod('ChatMod')
 includeMod('WorldMod')
 
 var dirApi = file('../java/japi/')
