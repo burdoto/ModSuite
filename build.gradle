@@ -17,17 +17,17 @@ class FileRequirement {
 }
 
 def required = List.of(
-        new FileRequirement("spigot", "spigot", null, "https://download.getbukkit.org/spigot/spigot-1.20.1.jar"),
-        new FileRequirement("paper", "spigot", null, "https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/196/downloads/paper-1.20.1-196.jar"),
-        new FileRequirement("arclight", "spigot", null, "https://github.com/IzzelAliz/Arclight/releases/download/Trials%2F1.0.5/arclight-forge-1.20.1-1.0.5.jar"),
-        new FileRequirement("luckperms", "spigot", "plugins", "https://download.luckperms.net/1552/bukkit/loader/LuckPerms-Bukkit-5.4.137.jar"),
-        new FileRequirement("spark", "spigot", "plugins", "https://ci.lucko.me/job/spark/lastBuild/artifact/spark-bukkit/build/libs/spark-1.10.93-bukkit.jar"),
+        new FileRequirement("paper", "spigot", null, "https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/33/downloads/paper-1.21.1-33.jar"),
+        new FileRequirement("arclight", "spigot", null, "https://github.com/IzzelAliz/Arclight/releases/download/FeudalKings%2F1.0.0-SNAPSHOT/arclight-neoforge-1.21-1.0.0-SNAPSHOT.jar"),
+        new FileRequirement("luckperms", "spigot", "plugins", "https://cdn.modrinth.com/data/Vebnzrzj/versions/MwOI6EAP/LuckPerms-NeoForge-5.4.139.jar"),
+        new FileRequirement("spark", "spigot", "plugins", "https://cdn.modrinth.com/data/l6YH9Als/versions/mHuABI9W/spark-1.10.97-neoforge.jar"),
 
-        new FileRequirement("fabric", "fabric", null, "https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.16.0/1.0.1/server/jar"),
-        new FileRequirement("fabric-api", "fabric", "mods", "https://mediafilez.forgecdn.net/files/${fabric_api_mod_cf}"),
-        new FileRequirement("owolib", "fabric", "mods", "https://mediafilez.forgecdn.net/files/4573/684/owo-lib-0.11.0%2B1.20.jar"),
-        new FileRequirement("luckperms", "fabric", "mods", "https://cdn.modrinth.com/data/Vebnzrzj/versions/7PNj6nCm/LuckPerms-Fabric-5.4.102.jar"),
-        new FileRequirement("spark", "fabric", "mods", "https://ci.lucko.me/job/spark/lastBuild/artifact/spark-fabric/build/libs/spark-1.10.93-fabric.jar"),
+        new FileRequirement("fabric", "fabric", null, "https://meta.fabricmc.net/v2/versions/loader/1.21.1/0.15.11/1.0.1/server/jar"),
+        new FileRequirement("arclight", "fabric", null, "https://github.com/IzzelAliz/Arclight/releases/download/FeudalKings%2F1.0.0-SNAPSHOT/arclight-fabric-1.21-1.0.0-SNAPSHOT.jar"),
+        new FileRequirement("fabric-api", "fabric", "mods", "https://cdn.modrinth.com/data/P7dR8mSH/versions/oGwyXeEI/fabric-api-0.102.0%2B1.21.jar"),
+        new FileRequirement("owolib", "fabric", "mods", "https://cdn.modrinth.com/data/ccKDOlHs/versions/AVkXApBi/owo-lib-0.12.11%2B1.21.jar"),
+        new FileRequirement("luckperms", "fabric", "mods", "https://cdn.modrinth.com/data/Vebnzrzj/versions/oLykW1F8/LuckPerms-Fabric-5.4.139.jar"),
+        new FileRequirement("spark", "fabric", "mods", "https://cdn.modrinth.com/data/l6YH9Als/versions/qTSaozEL/spark-1.10.97-fabric.jar"),
 )
 def dlTasks = required.collect { req ->
     def taskName = "download${req.serverType.capitalize()}${req.name.replaceAll('-', '').capitalize()}Jar"
