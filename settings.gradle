@@ -35,15 +35,19 @@ void includeMod(var key) {
         return
     boolean any = false
     // compile dependency modules
-    any = any | includeSubpart(key, 'compile-forge')
+    //any = any | includeSubpart(key, 'compile-forge')
     any = any | includeSubpart(key, 'compile-fabric')
 
     // mod modules
     any = any | includeSubpart(key, 'api')
     any = any | includeSubpart(key, 'core')
     any = any | includeSubpart(key, 'spigot')
-    any = any | includeSubpart(key, 'forge')
+    //any = any | includeSubpart(key, 'forge')
     any = any | includeSubpart(key, 'fabric')
+
+    // extra modules
+    any = any | includeSubpart(key, 'discord')
+    any = any | includeSubpart(key, 'web')
 
     if (!any) // is single part mod
         includeSubpart(key, null)
