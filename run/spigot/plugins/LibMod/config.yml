@@ -1,0 +1,22 @@
+# database for storing punishments and userdata
+database:
+  type: MariaDB # h2, MariaDB or MySQL
+  url: jdbc:mariadb://localhost:3306/dev # default is a local h2 database
+  username: dev
+  password: dev
+
+# messaging service for cross-server synchronization
+messaging-service:
+  type: polling-db # 'none', 'polling-db' or 'rabbit-mq'
+
+  # uncomment this example section to use 'polling-db' with a different database
+  #database:
+  #  type: MariaDB
+  #  url: jdbc:mariadb://localhost:3306/banmod_messaging
+  #  username: anonymous
+  #  password: anonymous
+  # you can adjust the polling interval. this will define how long punishments will lag between servers
+  #interval: 2s
+
+  # uncomment this example config for 'rabbit-mq'
+  #uri: amqp://anonymous:anonymous@localhost:5672/banmod_messaging
