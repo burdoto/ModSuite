@@ -19,8 +19,9 @@ class FileRequirement {
 def required = List.of(
         new FileRequirement("paper", "spigot", null, "https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/33/downloads/paper-1.21.1-33.jar"),
         new FileRequirement("arclight", "spigot", null, "https://github.com/IzzelAliz/Arclight/releases/download/FeudalKings%2F1.0.0-SNAPSHOT/arclight-neoforge-1.21-1.0.0-SNAPSHOT.jar"),
+        //new FileRequirement("placeholderapi", "spigot", "plugins", "https://www.spigotmc.org/resources/placeholderapi.6245/download?version=541946"),
         //new FileRequirement("luckperms", "spigot", "plugins", "https://www.spigotmc.org/resources/luckperms.28140/download?version=544174"),
-        new FileRequirement("spark", "spigot", "plugins", "https://cdn.modrinth.com/data/l6YH9Als/versions/mHuABI9W/spark-1.10.97-neoforge.jar"),
+        new FileRequirement("spark", "spigot", "mods", "https://cdn.modrinth.com/data/l6YH9Als/versions/mHuABI9W/spark-1.10.97-neoforge.jar"),
 
         new FileRequirement("fabric", "fabric", null, "https://meta.fabricmc.net/v2/versions/loader/1.21.1/0.15.11/1.0.1/server/jar"),
         new FileRequirement("arclight", "fabric", null, "https://github.com/IzzelAliz/Arclight/releases/download/FeudalKings%2F1.0.0-SNAPSHOT/arclight-fabric-1.21-1.0.0-SNAPSHOT.jar"),
