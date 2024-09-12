@@ -59,6 +59,8 @@ includeMod('BanMod')
 includeMod('ChatMod')
 includeMod('WorldMod')
 
+includeMod('TestingBot')
+
 var dirApi = file('../java/japi/')
 if (!dirApi.exists())
     dirApi = file('../java/api')
