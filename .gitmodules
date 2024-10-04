@@ -7,3 +7,9 @@
 [submodule "WorldMod"]
 	path = WorldMod
 	url = https://github.com/AMPZNetwork/WorldMod
+[submodule "LagMod"]
+	path = LagMod
+	url = https://github.com/AMPZNetwork/LagMod
+[submodule "ChatMod"]
+	path = ChatMod
+	url = https://github.com/AMPZNetwork/ChatMod
