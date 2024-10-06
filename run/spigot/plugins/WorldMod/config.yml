@@ -1,0 +1,6 @@
+logging:
+  skip-non-player: false
+  skip:
+    - move
+    - grow
+    - spawn.mobs
