@@ -59,6 +59,8 @@ void collectedPluginTask(String key, String type, String taskName) {
     }
 }
 
+evaluationDependsOnChildren()
+
 collectedPluginTask('spigot', 'plugins', 'shadowJar')
 collectedPluginTask('fabric', 'mods', 'remappedShadowJar')
 /*
