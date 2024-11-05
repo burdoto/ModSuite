@@ -60,6 +60,7 @@ includeMod('ChatMod')
 includeMod('WorldMod')
 
 //includeMod('ElectricMod')
+includeMod('JumpCube')
 
 includeMod('TestingBot')
 
@@ -72,3 +73,5 @@ if (dirApi.exists()) {
     include(':japi')
     project(':japi').projectDir = dirApi
 }
+include 'JumpCube'
+
