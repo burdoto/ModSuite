@@ -46,7 +46,7 @@ tasks.register('downloadRequirements') {
 subprojects.forEach { evaluationDependsOn it.path }
 
 void collectedPluginTask(String key, String type, String taskName) {
-    def projects = allprojects.findAll { it.name == key }
+    def projects = allprojects.findAll { it.name == key || (key == 'spigot' && it.name == 'JumpCube') }
     def relatedTasks = projects.collect { it.tasks.named(taskName).get() }
     relatedTasks.collect { task ->
         task.project.tasks.register("prepare${key.capitalize()}Test", Copy) {
