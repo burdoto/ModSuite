@@ -1,0 +1,18 @@
+apply plugin: 'java-gradle-plugin'
+
+apply from: '../gradle/java-library.gradle'
+apply from: '../gradle/util.gradle'
+
+group = 'com.ampznetwork'
+version = 1
+
+repositories.mavenCentral()
+
+gradlePlugin {
+    plugins {
+        'build-src' {
+            id = 'com.ampznetwork.build-src'
+            implementationClass = 'com.ampznetwork.build.ModSuiteBuildHelper'
+        }
+    }
+}

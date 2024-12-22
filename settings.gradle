@@ -11,19 +11,34 @@ pluginManagement {
             url = 'https://maven.minecraftforge.net/'
         }
     }
+
+    includeBuild('build-src')
 }
 
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        //classpath 'com.ampznetwork:build-src'
+        classpath 'de.undercouch:gradle-download-task:5.5.0'
+        classpath 'com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:8.1.1'
+        classpath 'org.gradle.toolchains.foojay-resolver:org.gradle.toolchains.foojay-resolver.gradle.plugin:0.9.0'
+    }
 }
 
 rootProject.name = 'ModSuite'
 
-boolean includeSubpart(var main, var sub)  {
+apply plugin: 'org.gradle.toolchains.foojay-resolver'
+apply plugin: 'com.ampznetwork.build-src'
+
+boolean includeSubpart(var main, var sub) {
     def path = sub == null ? "./$main/" : "./$main/$sub/";
     if (!file(path).exists())
         return false
-    def name = sub==null?":$main":":$main:$sub"
+    def name = sub == null ? ":$main" : ":$main:$sub"
     include(name)
     def project = project(name)
     project.projectDir = file(path)

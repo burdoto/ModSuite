@@ -1,21 +1,10 @@
-plugins {
-    id "de.undercouch.download" version "5.5.0"
-}
+apply from: 'gradle/versions.gradle'
+apply from: 'gradle/setup/requirements.gradle'
 
-class FileRequirement {
-    final def name
-    final def serverType
-    final def subDir
-    final def url
-
-    FileRequirement(name, serverType, subDir, url) {
-        this.name = name
-        this.serverType = serverType
-        this.subDir = subDir
-        this.url = url
-    }
-}
-
+tasks.named('downloadRequirements', DownloadRequirementsTask).neededFiles += [
+        new FileRequirement()
+]
+/*
 def required = List.of(
         new FileRequirement("paper", "spigot", null, "https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/33/downloads/paper-1.21.1-33.jar"),
         new FileRequirement("arclight", "spigot", null, "https://github.com/IzzelAliz/Arclight/releases/download/FeudalKings%2F1.0.0-SNAPSHOT/arclight-neoforge-1.21-1.0.0-SNAPSHOT.jar"),
@@ -42,6 +31,7 @@ def dlTasks = required.collect { req ->
 tasks.register('downloadRequirements') {
     dependsOn dlTasks
 }
+ */
 
 subprojects.forEach { proj ->
     evaluationDependsOn proj.path
