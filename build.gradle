@@ -43,7 +43,17 @@ tasks.register('downloadRequirements') {
     dependsOn dlTasks
 }
 
-subprojects.forEach { evaluationDependsOn it.path }
+subprojects.forEach { proj ->
+    evaluationDependsOn proj.path
+
+    if (proj.plugins.hasPlugin('java'))
+        proj.sourceSets {
+            main.java.srcDirs       += files("$proj.parent.projectDir/src/$proj.name/main/java")
+            main.resources.srcDirs  += files("$proj.parent.projectDir/src/$proj.name/main/resources")
+            test.java.srcDirs       += files("$proj.parent.projectDir/src/$proj.name/test/java")
+            test.resources.srcDirs  += files("$proj.parent.projectDir/src/$proj.name/test/resources")
+        }
+}
 
 void collectedPluginTask(String key, String type, String taskName) {
     def projects = allprojects.findAll { it.name == key }
