@@ -13,7 +13,9 @@ pluginManagement {
         mavenCentral()
     }
 
-    includeBuild('gradle') { name = 'buildscripts' }
+    includeBuild('gradle') {
+        name = 'buildscripts'
+    }
 }
 
 buildscript {
