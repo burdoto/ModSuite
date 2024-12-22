@@ -11,9 +11,6 @@ pluginManagement {
             url = 'https://maven.minecraftforge.net/'
         }
     }
-    includeBuild '../japi', {
-        name = 'japi-gradle'
-    }
 }
 
 plugins {
@@ -62,7 +59,7 @@ includeMod('BanMod')
 includeMod('ChatMod')
 includeMod('WorldMod')
 
-//includeMod('ElectricMod')ge
+//includeMod('ElectricMod')
 
 includeMod('TestingBot')
 

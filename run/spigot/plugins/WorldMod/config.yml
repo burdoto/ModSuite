@@ -1,6 +1,3 @@
-wand:
-  select: minecraft:wooden_axe
-  lookup: minecraft:bedrock
 logging:
   skip-non-player: false
   skip:
