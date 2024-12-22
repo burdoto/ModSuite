@@ -46,7 +46,7 @@ tasks.register('downloadRequirements') {
 subprojects.forEach { proj ->
     evaluationDependsOn proj.path
 
-    if (proj.plugins.hasPlugin('java'))
+    if (proj.plugins.hasPlugin('java') && proj.name != 'japi')
         proj.sourceSets {
             main.java.srcDirs       = files("$proj.parent.name/src/$proj.name/main/java")
             main.resources.srcDirs  = files("$proj.parent.name/src/$proj.name/main/resources")
