@@ -13,7 +13,7 @@ pluginManagement {
         mavenCentral()
     }
 
-    includeBuild('build-src')
+    includeBuild('gradle') { name = 'buildscripts' }
 }
 
 buildscript {

@@ -1,13 +1,13 @@
-import com.ampznetwork.build.model.FileRequirement
-import com.ampznetwork.build.task.DownloadRequirementsTask
+import com.ampznetwork.buildscripts.model.FileRequirement
+import com.ampznetwork.buildscripts.task.DownloadRequirementsTask
 
 buildscript {
     dependencies {
-        classpath 'com.ampznetwork.modsuite:build-src'
+        classpath 'com.ampznetwork.modsuite:buildscripts'
     }
 }
 
-plugins { id 'com.ampznetwork.modsuite.build-src' }
+plugins { id 'com.ampznetwork.modsuite.buildscripts' }
 
 ext {
     debug = "true" == System.getenv("DEBUG")
