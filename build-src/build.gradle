@@ -32,6 +32,8 @@ dependencies {
     implementation 'org.comroid:japi:+'
     implementation 'org.yaml:snakeyaml:2.+'
 
+    compileOnly 'de.undercouch:gradle-download-task:5.5.+'
+
     compileOnly 'org.projectlombok:lombok:+'
     annotationProcessor 'org.projectlombok:lombok:+'
 }
