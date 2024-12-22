@@ -1,18 +1,37 @@
-apply plugin: 'java-gradle-plugin'
+apply plugin: 'groovy-gradle-plugin'
 
-apply from: '../gradle/java-library.gradle'
-apply from: '../gradle/util.gradle'
-
-group = 'com.ampznetwork'
+group = 'com.ampznetwork.modsuite'
 version = 1
 
-repositories.mavenCentral()
-
-gradlePlugin {
-    plugins {
-        'build-src' {
-            id = 'com.ampznetwork.build-src'
-            implementationClass = 'com.ampznetwork.build.ModSuiteBuildHelper'
-        }
+gradlePlugin.plugins {
+    register('build-src') {
+        id = 'com.ampznetwork.modsuite.build-src'
+        implementationClass = 'com.ampznetwork.build.ModSuiteBuildHelper'
     }
+    register('generateSpigotResourceClassesPlugin') {
+        id = 'org.comroid.codegen.spigot'
+        implementationClass = 'org.comroid.codegen.spigot.GenerateSpigotResourceClassesPlugin'
+    }
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        name = 'comroid'
+        url = 'https://maven.comroid.org'
+    }
+    maven {
+        name = 'Fabric'
+        url = 'https://maven.fabricmc.net/'
+    }
+    gradlePluginPortal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.comroid:japi:+'
+    implementation 'org.yaml:snakeyaml:2.+'
+
+    compileOnly 'org.projectlombok:lombok:+'
+    annotationProcessor 'org.projectlombok:lombok:+'
 }
