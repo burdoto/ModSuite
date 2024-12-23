@@ -55,10 +55,6 @@ if (dirApi.exists()) {
     project(':japi').projectDir = dirApi
 }
 
-
-/*
-
-
 boolean includeSubpart(var main, var sub) {
     def path = sub == null ? "./$main/" : "./$main/$sub/";
     if (!file(path).exists())
@@ -102,5 +98,3 @@ includeMod('WorldMod')
 //includeMod('ElectricMod')
 
 includeMod('TestingBot')
-
-*/
