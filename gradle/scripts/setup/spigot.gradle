@@ -1,0 +1,31 @@
+apply from: '../java-lib.gradle'
+apply from: '../versions.gradle'
+apply from: '../deploy/shadownJar.gradle'
+
+repositories {
+    mavenLocal()
+    maven {
+        name = "papermc"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+    maven {
+        name = "spigotmc-repo"
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+    maven {
+        name = 'PAPI'
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.spigotmc:spigot-api:1.20-R0.1-SNAPSHOT'
+
+    api 'net.kyori:adventure-api:4.+'
+    implementation 'net.kyori:adventure-platform-bungeecord:4.+'
+}

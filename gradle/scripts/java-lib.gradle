@@ -1,0 +1,53 @@
+apply plugin: 'java-library'
+apply plugin: 'idea'
+
+def sourceSet(end) {
+    if (findProperty("$project.path:localSources") == 'true' || parent == null)
+        return files("$projectDir/src/$end");
+    return files("$parent.name/src/$name/$end")
+}
+
+sourceSets {
+    main.java.srcDirs += sourceSet('main/java')
+    test.java.srcDirs += sourceSet('test/java')
+
+    main.resources.srcDirs += sourceSet('main/resources')
+    test.resources.srcDirs += sourceSet('test/resources')
+}
+
+configurations { main.extendsFrom create('include') }
+
+java {
+    var javaVersion = rootProject.property('java_version')
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    from sourceSets.main.resources
+    into "$layout.buildDirectory/resources/main"
+    expand properties
+}
+
+jar {
+    from configurations.named { str -> str == 'classes' || str == 'include' }
+    //from configurations.named('mainSourceElements', 'include')
+}
+
+repositories {
+    maven {
+        name = 'comroid'
+        url = 'https://maven.comroid.org'
+    }
+}
+
+dependencies {
+    api 'org.jetbrains:annotations:+'
+
+    compileOnly 'org.projectlombok:lombok:+'
+    annotationProcessor 'org.projectlombok:lombok:+'
+}

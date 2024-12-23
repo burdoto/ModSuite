@@ -1,0 +1,12 @@
+apply plugin: 'junit'
+
+repositories.mavenCentral()
+
+dependencies {
+    testImplementation 'org.junit:junit:+'
+    testImplementation 'org.easymock:easymock:+'
+}
+
+build.dependsOn test
+
+test { useJUnit() }
