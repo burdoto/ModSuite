@@ -4,7 +4,7 @@ apply plugin: 'idea'
 def sourceSet(end) {
     if (findProperty("$project.path:localSources") == 'true' || parent == null)
         return files("$projectDir/src/$end");
-    return files("$parent.name/src/$name/$end")
+    return files("$rootDir/$parent.name/src/$name/$end")
 }
 
 sourceSets {
