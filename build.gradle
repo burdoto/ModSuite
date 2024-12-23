@@ -15,17 +15,22 @@ ext {
 
 apply from: 'gradle/scripts/versions.gradle'
 
-// elevate LibMod parts
-subprojects.findAll { plugins.hasPlugin('java') }.forEach {
-    dependencies {
+evaluationDependsOnChildren()
+
+// set up basic library dependencies
+subprojects.findAll { it.plugins.hasPlugin('java') }.forEach { p ->
+    p.dependencies { d ->
+        if (p.name == 'core') d.compileOnly project(":$p.parent.name:api")
+        if (p.name == 'spigot') d.compileOnly project(":$p.parent.name:core")
+        if (p.name == 'forge') d.compileOnly project(":$p.parent.name:core")
+        if (p.name == 'fabric') d.compileOnly project(":$p.parent.name:core")
+
         for (String sub : new String[]{'api', 'core', 'spigot', 'forge', 'fabric'}) {
-            print ":$parent.name:$project.name -> $sub: "
-            if (parent.name != 'LibMod' && project.name == sub) {
-                api project(':LibMod:' + sub)
-                println 'yes'
-            } else println 'no'
+            //print ":$p.parent.name:$p.name -> $sub: "
+            if (p.parent.name != 'LibMod' && p.name == sub) {
+                d.api project(':LibMod:' + sub)
+                //println 'yes'
+            } //else println 'no'
         }
-        if (parent.name != 'LibMod' && project.name == 'api')
-            compileOnly project(':LibMod:core')
     }
 }

@@ -3,16 +3,12 @@ apply plugin: 'java'
 
 repositories.mavenCentral()
 
-var conf = configurations.create('sql')
-configurations.main.extendsFrom
-var shadow = configurations.findByName('shadow')
-if (shadow != null) shadow.extendsFrom conf
-
 dependencies {
-    sql "org.hibernate:hibernate-core:5.6.0.Final"
-    sql "org.jboss:jandex:2.4.5.Final"
-    sql "com.zaxxer:HikariCP:4.0.3"
-    sql "org.mariadb.jdbc:mariadb-java-client:3.4.0"
-    sql "com.mysql:mysql-connector-j:8.4.0"
-    sql "com.h2database:h2:2.2.224"
+    api 'javax.persistence:javax.persistence-api:2.2'
+    implementation "org.hibernate:hibernate-core:5.6.0.Final"
+    implementation "org.jboss:jandex:2.4.5.Final"
+    implementation "com.zaxxer:HikariCP:4.0.3"
+    implementation "org.mariadb.jdbc:mariadb-java-client:3.4.0"
+    implementation "com.mysql:mysql-connector-j:8.4.0"
+    implementation "com.h2database:h2:2.2.224"
 }

@@ -1,6 +1,5 @@
-apply from: '../java-lib.gradle'
-apply from: '../versions.gradle'
-apply from: '../deploy/shadownJar.gradle'
+apply from: "$rootProject.projectDir/gradle/scripts/versions.gradle"
+apply from: "$rootProject.projectDir/gradle/scripts/deploy/shadowJar.gradle"
 
 repositories {
     mavenLocal()

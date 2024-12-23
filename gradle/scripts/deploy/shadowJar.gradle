@@ -1,10 +1,9 @@
 apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-configurations { create 'shadow' }
-
+var configs = [configurations.main, configurations.shadow]
 shadowJar {
     zip64 = true
 
-    configurations = [configurations.main, configurations.shadow]
+    configurations = configs
 }
