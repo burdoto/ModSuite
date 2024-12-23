@@ -4,7 +4,10 @@ buildscript {
     }
 }
 
-plugins { id 'com.ampznetwork.modsuite.buildscripts' }
+plugins {
+    id 'com.ampznetwork.modsuite.buildscripts'
+    id 'org.comroid.codegen.spigot' apply false
+}
 
 ext {
     debug = "true" == System.getenv("DEBUG")
