@@ -13,6 +13,8 @@ ext {
     debug = "true" == System.getenv("DEBUG")
 }
 
+getTasksByName('compileJava', true)*.dependsOn gradle.includedBuilds*.task(':jar')
+
 apply from: 'gradle/scripts/versions.gradle'
 apply from: 'gradle/scripts/setup/requirements.gradle'
 

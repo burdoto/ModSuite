@@ -13,9 +13,8 @@ pluginManagement {
         mavenCentral()
     }
 
-    includeBuild('gradle') {
-        name = 'buildscripts'
-    }
+    includeBuild('../japi') { name = 'japi' }
+    includeBuild('gradle') { name = 'buildscripts' }
 }
 
 buildscript {
@@ -44,16 +43,6 @@ buildscript {
 rootProject.name = 'ModSuite'
 
 apply plugin: 'org.gradle.toolchains.foojay-resolver'
-
-var dirApi = file('../java/japi/')
-if (!dirApi.exists())
-    dirApi = file('../java/api')
-if (!dirApi.exists())
-    dirApi = file('../japi')
-if (dirApi.exists()) {
-    include(':japi')
-    project(':japi').projectDir = dirApi
-}
 
 boolean includeSubpart(var main, var sub) {
     def path = sub == null ? "./$main/" : "./$main/$sub/";

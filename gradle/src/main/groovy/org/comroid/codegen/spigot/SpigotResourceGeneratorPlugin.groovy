@@ -16,7 +16,7 @@ class SpigotResourceGeneratorPlugin implements Plugin<Project> {
         }
 
         project.dependencies { d ->
-            d.generated project.rootProject.project(':japi')
+            d.generated 'org.comroid:japi:+'
             d.generated 'org.projectlombok:lombok:+'
             d.annotationProcessor 'org.projectlombok:lombok:+'
         }

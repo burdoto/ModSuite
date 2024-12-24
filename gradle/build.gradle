@@ -1,4 +1,16 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.comroid:japi:+'
+    }
+}
+
 apply plugin: 'groovy-gradle-plugin'
+apply plugin: 'maven-publish'
 
 group = 'com.ampznetwork.modsuite'
 version = 1
@@ -14,10 +26,6 @@ gradlePlugin.plugins {
     }
 }
 
-var task = tasks.findByName 'compileGradleGroovy'
-if (task != null)
-    task.enabled = false
-
 sourceSets {
     gradle {
         groovy {
@@ -25,6 +33,10 @@ sourceSets {
         }
     }
 }
+
+var task = tasks.findByName 'compileGradleGroovy'
+if (task != null)
+    task.enabled = false
 
 repositories {
     mavenLocal()
@@ -41,10 +53,12 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: layout.buildDirectory, include: '*.jar')
+    implementation 'org.comroid:japi:+'
     implementation 'org.jetbrains:annotations:24.+'
     implementation 'org.yaml:snakeyaml:2.+'
     implementation 'de.undercouch:gradle-download-task:5.5.+'
     implementation 'org.projectlombok:lombok:+'
     annotationProcessor 'org.projectlombok:lombok:+'
 }
+
+jar.finalizedBy publishToMavenLocal
