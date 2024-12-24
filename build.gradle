@@ -1,8 +1,3 @@
-import com.ampznetwork.modsuite.buildscripts.model.FileRequirement
-import de.undercouch.gradle.tasks.download.Download
-
-import static com.ampznetwork.modsuite.buildscripts.Util.capitalize
-
 buildscript {
     dependencies {
         classpath 'com.ampznetwork.modsuite:buildscripts'
@@ -19,87 +14,10 @@ ext {
 }
 
 apply from: 'gradle/scripts/versions.gradle'
+apply from: 'gradle/scripts/setup/requirements.gradle'
 
-// download files required for test runs
-var files = [
-        new FileRequirement("paper.jar", "run/spigot", "https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/33/downloads/paper-1.21.1-33.jar"),
-        new FileRequirement("arclight.jar", "run/spigot", "https://github.com/IzzelAliz/Arclight/releases/download/FeudalKings%2F1.0.0-SNAPSHOT/arclight-neoforge-1.21-1.0.0-SNAPSHOT.jar"),
-        //new FileRequirement("placeholderapi.jar", "run/spigot/plugins" , "https://www.spigotmc.org/resources/placeholderapi.6245/download?version=541946"),
-        new FileRequirement("luckperms.jar", "run/spigot/plugins", "https://download.luckperms.net/1568/bukkit/loader/LuckPerms-Bukkit-5.4.151.jar"),
-        //new FileRequirement("spark.jar",          "run/spigot/plugins" , "https://cdn.modrinth.com/data/l6YH9Als/versions/mHuABI9W/spark-1.10.97-neoforge.jar"),
-
-        /*
-        new FileRequirement("fabric", "fabric", null, "https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.16.7/1.0.1/server/jar"),
-        new FileRequirement("arclight", "fabric", null, "https://github.com/IzzelAliz/Arclight/releases/download/FeudalKings%2F1.0.0-SNAPSHOT/arclight-fabric-1.21-1.0.0-SNAPSHOT.jar"),
-        new FileRequirement("fabric-api", "fabric", "mods", "https://cdn.modrinth.com/data/P7dR8mSH/versions/P7uGFii0/fabric-api-0.92.2%2B1.20.1.jar"),
-        new FileRequirement("luckperms", "fabric", "mods", "https://cdn.modrinth.com/data/Vebnzrzj/versions/oLykW1F8/LuckPerms-Fabric-5.4.139.jar"),
-        new FileRequirement("spark", "fabric", "mods", "https://cdn.modrinth.com/data/l6YH9Als/versions/qTSaozEL/spark-1.10.97-fabric.jar"),
-         */
-]
-var dl = tasks.register('downloadRequirements') {
-    group = 'build setup'
-}.get()
-files.forEach { f ->
-    var destPath = "$rootDir/${f.path}/${f.name}"
-    if (!file(destPath).exists())
-        project.tasks.maybeCreate("download${capitalize(f.name.replace(".", ""))}For${capitalize(project.name)}", Download).configure {
-            group = 'build setup'
-            it.src f.url
-            it.dest destPath
-            dl.dependsOn it
-        }
-}
-
-// finalize project
 evaluationDependsOnChildren()
 
-// collect artifact tasks for test runs
-[
-        ['spigot', 'plugins'],
-        ['forge', 'mods'],
-        ['fabric', 'mods']
-].forEach { notation ->
-    var type = notation[0]
-    tasks.register("prepare${capitalize(type)}Test") {
-        group = 'test setup'
-    }.get()
-            .dependsOn subprojects.findAll { it.name == type }
-            .collect { p ->
-                def result = p.tasks.findByName('shadowJar') ?: p.tasks.findByName('jar')
-                if (result == null) println "Could not find suitable artifact task for $p.path"
-                return result
-            }
-            .findAll(Objects::nonNull)
-            .collect { t ->
-                tasks.register("copy${capitalize(type)}${capitalize(t.project.parent.name)}Jar", Copy) { c ->
-                    group = 'test setup'
-                    from t.outputs.files.singleFile
-                    into "$rootDir/run/$type/${notation[1]}"
-                    rename { "${t.project.parent.name}.jar" }
-                }.get()
-            }
-}
-
-// auto-run tasks on idea sync
-tasks.findByName('prepareKotlinBuildScriptModel')?.configure {
-    dependsOn getTasksByName('generateSpigotResourceClasses', true)
-    dependsOn downloadRequirements
-}
-
-// set up basic library dependencies
-subprojects.findAll { it.plugins.hasPlugin('java') }.forEach { p ->
-    p.dependencies { d ->
-        if (p.name == 'core') d.compileOnly project(":$p.parent.name:api")
-        if (p.name == 'spigot') d.compileOnly project(":$p.parent.name:core")
-        if (p.name == 'forge') d.compileOnly project(":$p.parent.name:core")
-        if (p.name == 'fabric') d.compileOnly project(":$p.parent.name:core")
-
-        for (String sub : new String[]{'api', 'core', 'spigot', 'forge', 'fabric'}) {
-            //print ":$p.parent.name:$p.name -> $sub: "
-            if (p.parent.name != 'LibMod' && p.name == sub) {
-                d.api project(':LibMod:' + sub)
-                //println 'yes'
-            } //else println 'no'
-        }
-    }
-}
+apply from: 'gradle/scripts/setup/artifacts.gradle'
+apply from: 'gradle/scripts/setup/intellij.gradle'
+apply from: 'gradle/scripts/setup/global.gradle'

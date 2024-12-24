@@ -1,0 +1,16 @@
+subprojects.findAll { it.plugins.hasPlugin('java') }.forEach { p ->
+    p.dependencies { d ->
+        if (p.name == 'core') d.compileOnly project(":$p.parent.name:api")
+        if (p.name == 'spigot') d.compileOnly project(":$p.parent.name:core")
+        if (p.name == 'forge') d.compileOnly project(":$p.parent.name:core")
+        if (p.name == 'fabric') d.compileOnly project(":$p.parent.name:core")
+
+        for (String sub : new String[]{'api', 'core', 'spigot', 'forge', 'fabric'}) {
+            //print ":$p.parent.name:$p.name -> $sub: "
+            if (p.parent.name != 'LibMod' && p.name == sub) {
+                d.api project(':LibMod:' + sub)
+                //println 'yes'
+            } //else println 'no'
+        }
+    }
+}

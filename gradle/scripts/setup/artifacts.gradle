@@ -1,0 +1,28 @@
+static String capitalize(String str) {
+    return Character.toUpperCase(str.charAt(0)).toString() + str.substring(1)
+}
+
+[
+        ['spigot', 'plugins'],
+        ['forge', 'mods'],
+        ['fabric', 'mods']
+].forEach { notation ->
+    var type = notation[0]
+    tasks.register("prepare${capitalize(type)}Test") {
+        group = 'test setup'
+    }.get().dependsOn subprojects.findAll { it.name == type }
+            .collect { p ->
+                def result = p.tasks.findByName('shadowJar') ?: p.tasks.findByName('jar')
+                if (result == null) println "Could not find suitable artifact task for $p.path"
+                return result
+            }
+            .findAll(Objects::nonNull)
+            .collect { t ->
+                tasks.register("copy${capitalize(type)}${capitalize(t.project.parent.name)}Jar", Copy) { c ->
+                    group = 'test setup'
+                    from t.outputs.files.singleFile
+                    into "$rootDir/run/$type/${notation[1]}"
+                    rename { "${t.project.parent.name}.jar" }
+                }.get()
+            }
+}

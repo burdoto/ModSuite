@@ -1,0 +1,4 @@
+tasks.findByName('prepareKotlinBuildScriptModel')?.configure {
+    dependsOn getTasksByName('generateSpigotResourceClasses', true)
+    dependsOn tasks.named('downloadRequirements').get()
+}
