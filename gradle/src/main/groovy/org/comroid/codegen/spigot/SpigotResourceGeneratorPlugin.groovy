@@ -10,7 +10,16 @@ class SpigotResourceGeneratorPlugin implements Plugin<Project> {
         if (!project.plugins.hasPlugin('java'))
             throw new IllegalStateException("A java module is required")
 
-        project.configurations.compileClasspath.extendsFrom project.configurations.create('generated')
+        project.configurations { c ->
+            c.create 'generated'
+            c.implementation.extendsFrom c.generated
+        }
+
+        project.dependencies { d ->
+            d.generated project.rootProject.project(':japi')
+            d.generated 'org.projectlombok:lombok:+'
+            d.annotationProcessor 'org.projectlombok:lombok:+'
+        }
 
         def sources = project.extensions.getByType(SourceSetContainer)
         sources.maybeCreate('generated').java.srcDirs "${project.layout.buildDirectory.get().asFile.absolutePath}/generated/sources/r"
