@@ -60,7 +60,7 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
 
                 java.beginClass().kind(ElementKind.ENUM).name("LoadTime").and()
                         .writeIndent()
-                        .writeTokenList("", "", List.of("STARTUP", "POSTWORLD"), Function.identity(), ",", false)
+                        .writeTokenList("", "", List.of("STARTUP", "POSTWORLD"), Function.identity(), ",")
                         .writeLineTerminator()
                         .end()
             } catch (Throwable t) {
