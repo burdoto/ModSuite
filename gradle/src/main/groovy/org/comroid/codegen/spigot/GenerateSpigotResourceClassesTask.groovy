@@ -25,6 +25,7 @@ import static java.lang.reflect.Modifier.*
 
 abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
     private final Set<String> terminalNodes = new HashSet<>()
+    private final Set<String> writtenConstants = new HashSet<>()
 
     @TaskAction
     void generate() {
@@ -176,7 +177,7 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
 
         terminalNodes.clear()
         cleanupKeys(permissions)
-        generatePermissionsNodes(java, "#", Polyfill.uncheckedCast(permissions))
+        generatePermissionsNodes(java, "", Polyfill.uncheckedCast(permissions))
 
         generateField(java, 0, "Permission[]", "TERMINAL_NODES", Wrap.of(terminalNodes),
                 ls -> ls.isEmpty() ? "new Permission[0]" : ls.stream().collect(Collectors.joining(",", "new Permission[]{", "}")))
@@ -185,27 +186,31 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
 
     private void generatePermissionsNodes(JavaSourcecodeWriter java, String parentKey, Map<String, Object> nodes) throws IOException {
         for (var key : nodes.keySet()) {
-            var name = key.startsWith(parentKey) ? key.substring(parentKey.length() + 1) : key
+            var name = !parentKey.isBlank() && key.startsWith(parentKey) ? key.substring(parentKey.length() + 1) : key
             generatePermissionsNode(java, parentKey, name, Polyfill.uncheckedCast(nodes.get(key)))
         }
     }
 
     private void generatePermissionsNode(JavaSourcecodeWriter java, String parentKey, String key, Map<String, Object> node) throws IOException {
-        var name = key.startsWith(parentKey) ? key.substring(parentKey.length() + 1) : key
+        var name = !parentKey.isBlank() && key.startsWith(parentKey) ? key.substring(parentKey.length() + 1) : key
+        var permissionKey = (parentKey.isBlank() ? "" : parentKey + '.') + key
+        if (writtenConstants.add(key))
+            generateField(java, PUBLIC | STATIC | FINAL, String.class, name.toUpperCase(), () -> permissionKey, toStringExpr())
         java
                 .beginAnnotation().type(Getter.class).and()
                 .beginAnnotation().type(RequiredArgsConstructor.class).and()
                 .beginClass().modifiers(PUBLIC).kind(ElementKind.ENUM).name(name).implementsType("Permission").and()
+        var constants = new HashMap<String, String>()
 
-        generatePermissionEnumConstant('$self', java, key, node)
+        generatePermissionEnumConstant('$self', java, permissionKey, node)
         java.comma().lf()
-        generatePermissionEnumConstant('$wildcard', java, key + ".*", node)
+        generatePermissionEnumConstant('$wildcard', java, permissionKey + ".*", node)
 
         var deepChildren = new HashMap<String, Object>()
         var children = Polyfill.<Map<String, Object>> uncheckedCast(node.getOrDefault("children", Map.of()))
         if (!children.isEmpty())
             for (var entry : children.entrySet()) {
-                var midKey = "#" == parentKey ? key : parentKey + '.' + key
+                var midKey = parentKey.isBlank() ? key : parentKey + '.' + key
                 var eKey = entry.getKey()
                 var eName = eKey.startsWith(midKey) ? eKey.substring(midKey.length() + 1) : eKey
                 var subChildren = Polyfill.<Map<String, Object>> uncheckedCast(entry.getValue()).getOrDefault("children", Map.of())
@@ -213,10 +218,15 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
                     // no further children; write enum constant
                     java.comma().lf()
                     terminalNodes.add(eKey)
+                    constants.put(eName, entry.getKey())
                     generatePermissionEnumConstant(eName, java, eKey, Polyfill.uncheckedCast(entry.getValue()))
                 } else deepChildren.put(eKey, entry.getValue())
             }
         java.writeLineTerminator().lf()
+
+        for (final def e in constants.entrySet())
+            if (writtenConstants.add(e.getValue()))
+                generateField(java, PUBLIC | STATIC | FINAL, String.class, e.getKey().toUpperCase(), e::getValue, toStringExpr())
 
         generateField(java, PRIVATE | FINAL, String.class, "name")
         generateField(java, PRIVATE | FINAL, String.class, "description")

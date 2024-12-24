@@ -26,13 +26,13 @@ java {
 compileJava {
     options.encoding = 'UTF-8'
 }
-
+/*
 processResources {
     from sourceSets.main.resources
     into "$layout.buildDirectory/resources/main"
     expand properties
 }
-
+*/
 jar {
     from configurations.named { str -> str == 'classes' || str == 'include' }
     //from configurations.named('mainSourceElements', 'include')
