@@ -21,6 +21,7 @@ java {
     var javaVersion = rootProject.property('java_version')
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
+    withSourcesJar()
 }
 
 compileJava {
