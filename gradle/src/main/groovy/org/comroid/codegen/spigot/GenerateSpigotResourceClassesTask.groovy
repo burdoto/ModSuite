@@ -35,7 +35,7 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
             Map<String, Object> yml = new Yaml().load(pluginYml)
             var main = (String) yml.get("main")
             var lio = main.lastIndexOf('.')
-            var pkg = main.substring(0, lio)
+            var pkg = main.substring(0, lio).replace('spigot', 'generated')
 
             var pkgDir = new File("${project.layout.buildDirectory.get().asFile.absolutePath}/generated/sources/r/${pkg.replace('.', '/')}")
             if (!pkgDir.exists() && !pkgDir.mkdirs())
