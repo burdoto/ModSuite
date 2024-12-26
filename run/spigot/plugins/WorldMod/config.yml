@@ -1,10 +1,11 @@
 wand:
-  selection: minecraft:stick
+  selection: minecraft:wooden_axe
   lookup: minecraft:bedrock
 logging:
   skip-non-player: true
   skip:
     - move
-    - grow
     - interact
+    - grow
+    - spread
     - spawn.mobs
