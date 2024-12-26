@@ -19,6 +19,7 @@ static String capitalize(String str) {
             .findAll(Objects::nonNull)
             .collect { t ->
                 tasks.register("copy${capitalize(type)}${capitalize(t.project.parent.name)}Jar", Copy) { c ->
+                    dependsOn t
                     group = 'test setup'
                     from t.outputs.files.singleFile
                     into "$rootDir/run/$type/${notation[1]}"

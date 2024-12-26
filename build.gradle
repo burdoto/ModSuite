@@ -23,3 +23,10 @@ evaluationDependsOnChildren()
 apply from: 'gradle/scripts/setup/artifacts.gradle'
 apply from: 'gradle/scripts/setup/intellij.gradle'
 apply from: 'gradle/scripts/setup/global.gradle'
+
+subprojects { p ->
+    tasks.findByName('shadowJar')?.configure {
+        from project(":$p.parent.name:api").sourceSets.main.output
+        from project(":$p.parent.name:core").sourceSets.main.output
+    }
+}
