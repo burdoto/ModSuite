@@ -12,5 +12,9 @@ subprojects.findAll { it.plugins.hasPlugin('java') }.forEach { p ->
                 //println 'yes'
             } //else println 'no'
         }
+
+        // tests
+        d.testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+        d.testImplementation 'org.easymock:easymock:+'
     }
 }

@@ -1,8 +1,9 @@
 apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-var configs = [configurations.main, configurations.shadow]
 shadowJar {
     zip64 = true
-    configurations = configs
+    if (project.parent.name == 'LibMod')
+        dependencies { it.include { it.moduleGroup == 'org.comroid' } }
+    else configurations = [project.configurations.main, project.configurations.shadow]
 }
