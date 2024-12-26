@@ -1,6 +1,6 @@
 database:
-  type: MySQL
-  url: jdbc:mysql://localhost:3306/dev
+  type: MariaDB
+  url: jdbc:mariadb://eu.comroid.org:3306/dev
   username: dev
   password: dev
 
