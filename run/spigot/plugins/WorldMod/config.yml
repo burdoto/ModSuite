@@ -1,6 +1,10 @@
+wand:
+  selection: minecraft:stick
+  lookup: minecraft:bedrock
 logging:
-  skip-non-player: false
+  skip-non-player: true
   skip:
     - move
     - grow
+    - interact
     - spawn.mobs
