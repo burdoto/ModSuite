@@ -25,7 +25,7 @@ var dl = tasks.register('downloadRequirements') {
 }.get()
 
 files.forEach { f ->
-    var destPath = "$rootDir/${f[0]}/${f[1]}"
+    var destPath = "$rootDir/${f[1]}/${f[0]}"
     if (!file(destPath).exists())
         project.tasks.maybeCreate("download${capitalize(f[0].replace(".", ""))}For${capitalize(project.name)}", Download).configure {
             doNotTrackState 'gradle told me to do this'
