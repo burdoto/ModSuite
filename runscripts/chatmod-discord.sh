@@ -23,7 +23,7 @@ function pull() {
 (
   cd '../japi' || exit;
   pull 'main';
-  "./gradlew" "--no-daemon" "clean publishToMavenLocal";
+  "./gradlew" "--no-daemon" "clean" "publishToMavenLocal";
 )
 
 pull 'main';
