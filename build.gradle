@@ -28,7 +28,9 @@ subprojects { p ->
     tasks.findByName('shadowJar')?.configure {
         from project(":$p.parent.name:api").sourceSets.main.output
         from project(":$p.parent.name:core").sourceSets.main.output
-        if (p.parent.name == 'ChatMod')
+        if (p.parent.name == 'ChatMod') {
+            from project(":ChatMod:discord").sourceSets.main.output
             from project(":ChatMod:AurionChatApi").sourceSets.main.output
+        }
     }
 }
