@@ -22,9 +22,9 @@ function pull() {
 
 (
   cd '../japi' || exit;
-  pull 'main'
+  pull 'main';
+  ./gradlew --no-daemon "clean publishToMavenLocal";
 )
 
-pull 'main'
-
-gradlew --no-daemon ":ChatMod:discord:run";
+pull 'main';
+./gradlew --no-daemon ":ChatMod:discord:run";
