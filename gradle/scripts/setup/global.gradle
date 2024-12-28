@@ -1,16 +1,34 @@
+allprojects*.repositories {
+    it.mavenLocal()
+    it.mavenCentral()
+}
+
 subprojects.findAll { it.plugins.hasPlugin('java') }.forEach { p ->
     p.dependencies { d ->
-        if (p.name == 'core') d.compileOnly project(":$p.parent.name:api")
-        if (p.name == 'spigot') d.compileOnly project(":$p.parent.name:core")
-        if (p.name == 'forge') d.compileOnly project(":$p.parent.name:core")
-        if (p.name == 'fabric') d.compileOnly project(":$p.parent.name:core")
-
-        for (String sub : new String[]{'api', 'core', 'spigot', 'forge', 'fabric'}) {
-            //print ":$p.parent.name:$p.name -> $sub: "
-            if (p.parent.name != 'LibMod' && p.name == sub) {
-                d.api project(':LibMod:' + sub)
-                //println 'yes'
-            } //else println 'no'
+        if (p.name == 'api') {
+            d.api 'org.comroid:japi:+'
+            if (p.parent.name != 'LibMod')
+                d.api project(':LibMod:api')
+        }
+        if (p.name == 'core') {
+            d.api project(":$p.parent.name:api")
+            if (p.parent.name != 'LibMod')
+                d.api project(':LibMod:core')
+        }
+        if (p.name == 'spigot') {
+            d.api project(":$p.parent.name:core")
+            if (p.parent.name != 'LibMod')
+                d.api project(':LibMod:spigot')
+        }
+        if (p.name == 'forge') {
+            d.api project(":$p.parent.name:core")
+            if (p.parent.name != 'LibMod')
+                d.api project(':LibMod:forge')
+        }
+        if (p.name == 'fabric') {
+            d.api project(":$p.parent.name:core")
+            if (p.parent.name != 'LibMod')
+                d.api project(':LibMod:fabric')
         }
 
         // tests

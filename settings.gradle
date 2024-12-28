@@ -50,8 +50,7 @@ boolean includeSubpart(var main, var sub) {
         return false
     def name = sub == null ? ":$main" : ":$main:$sub"
     include(name)
-    def project = project(name)
-    project.projectDir = file(path)
+    project(name).projectDir = file(path)
     return true
 }
 
@@ -78,10 +77,22 @@ void includeMod(var key) {
         includeSubpart(key, null)
 }
 
+def includeThirdparty(parent, name, path) {
+    include(":$parent:$name")
+    def thirdparty = project(":$parent:$name".toString())
+    thirdparty.projectDir = file("./$parent/thirdparty/$path")
+    return thirdparty
+}
+
 includeMod('LibMod')
+
 //includeMod('LagMod')
+
 includeMod('BanMod')
+
 includeMod('ChatMod')
+includeThirdparty('ChatMod', 'AurionChatApi', 'AurionChat/api')
+
 includeMod('WorldMod')
 
 //includeMod('ElectricMod')
