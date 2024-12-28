@@ -92,7 +92,6 @@ includeMod('BanMod')
 
 includeMod('ChatMod')
 includeThirdparty('ChatMod', 'AurionChatApi', 'AurionChat/api')
-includeThirdparty('ChatMod', 'DiscordLink', 'ForwardMQ')
 
 includeMod('WorldMod')
 

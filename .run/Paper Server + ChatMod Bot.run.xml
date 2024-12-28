@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Paper Server + ChatMod Bot" type="CompoundRunConfigurationType">
+        <toRun name="ChatMod Discord Bot" type="GradleRunConfiguration"/>
+        <toRun name="Paper Test Server" type="JarApplication"/>
+        <method v="2"/>
+    </configuration>
+</component>
