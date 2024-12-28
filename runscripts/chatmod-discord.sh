@@ -27,8 +27,4 @@ function pull() {
 
 pull 'main'
 
-exec="gradle"
-if [ -z "$(which "$exec")" ]; then
-  exec="gradlew"
-fi
-$exec --no-daemon ":ChatMod:discord:run";
+gradlew --no-daemon ":ChatMod:discord:run";
