@@ -7,6 +7,8 @@ import org.comroid.api.attr.Described
 import org.comroid.api.attr.Named
 import org.comroid.api.func.ext.Wrap
 import org.comroid.api.java.gen.JavaSourcecodeWriter
+import org.comroid.api.model.minecraft.model.DefaultPermissionValue
+import org.comroid.api.model.minecraft.model.PluginLoadTime
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.impldep.org.intellij.lang.annotations.Language
@@ -49,7 +51,7 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
                     var java = new JavaSourcecodeWriter(sourcecode)
             ) {
                 java.writePackage(pkg)
-                        .writeImport(Named.class, Described.class, Getter.class, RequiredArgsConstructor.class)
+                        .writeImport(Named.class, Described.class, PluginLoadTime.class, DefaultPermissionValue.class, Getter.class, RequiredArgsConstructor.class)
                         .writeAnnotation(SuppressWarnings.class, Map.of("value", "\"unused\""))
                         .beginClass().modifiers(PUBLIC).kind(ElementKind.INTERFACE).name("PluginYml").and()
                 //.beginMethod().modifiers(PRIVATE).name("ctor").and().end();
@@ -57,12 +59,6 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
                 generateBaseFields(java, yml)
                 generateCommandsEnum(java, Polyfill.uncheckedCast(yml.getOrDefault("commands", Map.of())))
                 generatePermissions(java, Polyfill.uncheckedCast(yml.getOrDefault("permissions", new HashMap<>())))
-
-                java.beginClass().kind(ElementKind.ENUM).name("LoadTime").and()
-                        .writeIndent()
-                        .writeTokenList("", "", List.of("STARTUP", "POSTWORLD"), Function.identity(), ",")
-                        .writeLineTerminator()
-                        .end()
             } catch (Throwable t) {
                 if (System.getenv('DEBUG') == 'true')
                     pluginYmlJava.delete()
@@ -79,7 +75,7 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
         generateField(java, 0, String.class, "mainClassName", fromString(yml, "main"), toStringExpr())
         generateField(java, 0, String.class, "loggingPrefix", fromString(yml, "prefix"), toStringExpr())
         generateField(java, 0, String.class, "apiVersion", fromString(yml, "api-version"), toStringExpr())
-        generateField(java, 0, "LoadTime", "load", fromString(yml, "load"), toEnumConstExpr("LoadTime"))
+        generateField(java, 0, PluginLoadTime.class, "load", fromString(yml, "load"), toEnumConstExpr(PluginLoadTime.class.simpleName))
         generateField(java, 0, String.class, "name", fromString(yml, "name"), toStringExpr())
         generateField(java, 0, String.class, "version", fromString(yml, "version"), toStringExpr())
         generateField(java, 0, String.class, "description", fromString(yml, "description"), toStringExpr())
@@ -173,7 +169,6 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
     private void generatePermissions(JavaSourcecodeWriter java, Map<String, Map<String, Object>> permissions) throws IOException {
         java.beginClass().kind(ElementKind.INTERFACE).name("Permission")
                 .implementsType(Named.class).implementsType(Described.class).and()
-                .beginMethod().modifiers(ABSTRACT).returnType(boolean.class).name("getDefaultValue").and()
 
         terminalNodes.clear()
         cleanupKeys(permissions)
@@ -200,19 +195,24 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
                 .beginAnnotation().type(Getter.class).and()
                 .beginAnnotation().type(RequiredArgsConstructor.class).and()
                 .beginClass().modifiers(PUBLIC).kind(ElementKind.ENUM).name(name).implementsType("Permission").and()
+        var children = Polyfill.<Map<String, Object>> uncheckedCast(node.getOrDefault("children", Map.of()))
         var constants = new HashMap<String, String>()
 
         generatePermissionEnumConstant('$self', java, permissionKey, node)
         java.comma().lf()
-        generatePermissionEnumConstant('$wildcard', java, permissionKey + ".*", node)
+        generatePermissionEnumConstant('$wildcard', java, permissionKey + ".*", (Map<String, Object>) children.getOrDefault(permissionKey + ".*", Map.of(
+                "description", "Auto-generated Wildcard Permission; inherits all child permissions",
+                "default", "false"
+        )));
 
         var deepChildren = new HashMap<String, Object>()
-        var children = Polyfill.<Map<String, Object>> uncheckedCast(node.getOrDefault("children", Map.of()))
         if (!children.isEmpty())
             for (var entry : children.entrySet()) {
                 var midKey = parentKey.isBlank() ? key : parentKey + '.' + key
                 var eKey = entry.getKey()
                 var eName = eKey.startsWith(midKey) ? eKey.substring(midKey.length() + 1) : eKey
+                if (eName == '*')
+                    continue;
                 var subChildren = Polyfill.<Map<String, Object>> uncheckedCast(entry.getValue()).getOrDefault("children", Map.of())
                 if (Polyfill.<Map<String, Object>> uncheckedCast(subChildren).isEmpty()) {
                     // no further children; write enum constant
@@ -230,12 +230,11 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
 
         generateField(java, PRIVATE | FINAL, String.class, "name")
         generateField(java, PRIVATE | FINAL, String.class, "description")
-        generateField(java, PRIVATE | FINAL, boolean.class, "defaultValue")
+        generateField(java, PRIVATE | FINAL, DefaultPermissionValue.class, "Default")
 
         java.writeGetter(PUBLIC, String.class, "name", "toString")
-                .writeGetter(PUBLIC, boolean.class, "defaultValue")
 
-        generatePermissionsNodes(java, key, deepChildren)
+        generatePermissionsNodes(java, permissionKey, deepChildren)
         java.end()
     }
 
@@ -245,10 +244,11 @@ abstract class GenerateSpigotResourceClassesTask extends DefaultTask {
             String key,
             Map<String, Object> node
     ) throws IOException {
+        def defaultStr = fromString(node, "default").get()
         java.writeEnumConstant(name, List.of(
                 toStringExpr().apply(key),
                 toStringExpr().apply(fromString(node, "description").get()),
-                toPlainExpr().apply(fromBoolean(node, "default").get())
+                defaultStr == null ? 'null' : toEnumConstExpr(DefaultPermissionValue.class.simpleName).apply(defaultStr.replace(' ', '_').toUpperCase())
         ))
     }
 
