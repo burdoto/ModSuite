@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Paper Test Server" type="docker-deploy" factoryName="docker-compose.yml" folderName="local"
+                   activateToolWindowBeforeRun="false" server-name="docker@local">
+        <deployment type="docker-compose.yml">
+            <settings>
+                <option name="envFilePath" value=""/>
+                <option name="removeOrphansOnComposeDown" value="false"/>
+                <option name="commandLineOptions" value="--build"/>
+                <option name="services">
+                    <list>
+                        <option value="paper_server"/>
+                    </list>
+                </option>
+                <option name="sourceFilePath" value="docker-compose.yml"/>
+            </settings>
+        </deployment>
+        <method v="2">
+            <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareSpigotTest" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters=""/>
+        </method>
+    </configuration>
+</component>

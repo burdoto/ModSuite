@@ -1,0 +1,58 @@
+name: modsuite
+
+volumes:
+  world:
+  plugins:
+  database:
+
+services:
+  paper_server:
+    container_name: "dev_server"
+    build:
+      context: run/spigot
+    restart: always
+    environment:
+      TZ: "Europe/Berlin"
+      MEMORYSIZE: "4G"
+      JAVAFLAGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+    volumes:
+      - plugins:/data/plugins:rw
+      - world:/data/world:rw
+    ports:
+      - "0.0.0.0:5005:5005"
+      - "0.0.0.0:25565:25565"
+    depends_on:
+      - database
+      - rabbitmq
+
+  chatmod_discord:
+    container_name: "chatmod_discord"
+    build:
+      context: .
+    restart: always
+    volumes:
+      - /srv/chatmod:/srv/chatmod:rw
+    depends_on:
+      - rabbitmq
+
+  database:
+    hostname: database
+    container_name: database
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_USER: dev
+      MARIADB_PASSWORD: dev
+      MARIADB_DATABASE: dev
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+    volumes:
+      - database:/var/lib/mysql/:rw
+
+  rabbitmq:
+    hostname: rabbitmq
+    container_name: rabbitmq
+    image: rabbitmq:3
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest

@@ -13,6 +13,14 @@ ext {
     debug = "true" == System.getenv("DEBUG")
 }
 
+tasks.maybeCreate('clean', Delete).configure {
+    delete "$projectDir/run/spigot/cache"
+    delete "$projectDir/run/spigot/libraries"
+    delete "$projectDir/run/spigot/logs"
+    delete "$projectDir/run/spigot/plugins/.paper-remapped"
+    delete "$projectDir/run/spigot/versions"
+}
+
 getTasksByName('compileJava', true)*.dependsOn gradle.includedBuilds*.task(':jar')
 
 apply from: 'gradle/scripts/versions.gradle'
