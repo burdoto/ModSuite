@@ -3,56 +3,122 @@ name: modsuite
 volumes:
   world:
   plugins:
+  discord:
   database:
 
 services:
+  init:
+    container_name: "init"
+    image: ubuntu
+    command: >
+      sh -c "mkdir -p /srv/world/world /srv/world/world_nether /srv/world/world_the_end &&
+             cp /data/plugins/ChatMod/config.${INCLUDE_BOT:-exclude}.yml /data/plugins/ChatMod/config.yml"
+    volumes:
+      - plugins:/data/plugins:rw
+      - world:/srv/world:rw
+
   paper_server:
     container_name: "dev_server"
     build:
       context: run/spigot
-    restart: always
+    restart: on-failure
     environment:
       TZ: "Europe/Berlin"
       MEMORYSIZE: "4G"
       JAVAFLAGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     volumes:
+      # discord bot token location
+      - /srv/cred/discord:/srv/cred/discord:r
+      # secure plugin & config location
       - plugins:/data/plugins:rw
-      - world:/data/world:rw
+      # reduce world wipes
+      - type: volume
+        source: world
+        target: /data/world
+        volume:
+          nocopy: true
+          subpath: world
+      - type: volume
+        source: world
+        target: /data/world_nether
+        volume:
+          nocopy: true
+          subpath: world_nether
+      - type: volume
+        source: world
+        target: /data/world_the_end
+        volume:
+          nocopy: true
+          subpath: world_the_end
+      # avoid wiping internal server caches
+      - type: tmpfs
+        target: /data/libraries
+      - type: tmpfs
+        target: /data/cache
+      - type: tmpfs
+        target: /data/versions
+      - type: tmpfs
+        target: /data/plugins/.paper-remapped
     ports:
       - "0.0.0.0:5005:5005"
       - "0.0.0.0:25565:25565"
     depends_on:
-      - database
-      - rabbitmq
+      init:
+        condition: service_completed_successfully
+      database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
-  chatmod_discord:
-    container_name: "chatmod_discord"
+  discordbot:
+    container_name: "discordbot"
     build:
-      context: .
-    restart: always
+      context: ChatMod/discord
+    restart: on-failure
+    entrypoint: "java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -jar app.jar"
     volumes:
-      - /srv/chatmod:/srv/chatmod:rw
+      - discord:/srv/chatmod:rw
+      - /srv/cred/discord:/srv/cred/discord:r
+    ports:
+      - "0.0.0.0:5006:5006"
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
 
   database:
     hostname: database
     container_name: database
-    image: mariadb:latest
-    restart: always
+    image: mariadb
+    restart: unless-stopped
     environment:
       MARIADB_USER: dev
       MARIADB_PASSWORD: dev
       MARIADB_DATABASE: dev
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      start_period: 10s
+      interval: 30s
+      timeout: 30s
+      retries: 3
     volumes:
       - database:/var/lib/mysql/:rw
+    ports:
+      - "0.0.0.0:53306:3306"
 
   rabbitmq:
     hostname: rabbitmq
     container_name: rabbitmq
-    image: rabbitmq:3
-    restart: always
+    image: rabbitmq:3-management
+    restart: unless-stopped
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      start_period: 5s
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    ports:
+      - "0.0.0.0:55672:15672"

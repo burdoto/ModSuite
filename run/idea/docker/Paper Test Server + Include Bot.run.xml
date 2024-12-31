@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Dev Server" type="docker-deploy" factoryName="docker-compose.yml" folderName="remote: gman"
-                 activateToolWindowBeforeRun="false" server-name="docker@gman">
+  <configuration default="false" name="Paper Test Server + Include Bot" type="docker-deploy" factoryName="docker-compose.yml" folderName="local"
+                 activateToolWindowBeforeRun="false" server-name="docker@local">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value=""/>

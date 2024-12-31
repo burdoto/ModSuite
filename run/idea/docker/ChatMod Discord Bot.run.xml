@@ -4,19 +4,19 @@
         <deployment type="docker-compose.yml">
             <settings>
                 <option name="envFilePath" value=""/>
-                <option name="removeOrphansOnComposeDown" value="false"/>
+                <option name="removeImagesOnComposeDown" value="ALL"/>
                 <option name="commandLineOptions" value="--build"/>
                 <option name="services">
                     <list>
-                        <option value="chatmod_discord"/>
+                        <option value="discordbot"/>
                     </list>
                 </option>
                 <option name="sourceFilePath" value="docker-compose.yml"/>
             </settings>
         </deployment>
         <method v="2">
-            <option name="Gradle.BeforeRunTask" enabled="false" tasks=":ChatMod:discord:shadowJar" externalProjectPath="$PROJECT_DIR$" vmOptions=""
-                    scriptParameters=""/>
+            <option name="RunConfigurationTask" enabled="true" run_configuration_name="Build ChatMod Discord Bot"
+                    run_configuration_type="GradleRunConfiguration"/>
         </method>
     </configuration>
 </component>

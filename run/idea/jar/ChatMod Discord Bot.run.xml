@@ -8,8 +8,8 @@
         </envs>
         <module name="ModSuite.ChatMod.discord.main"/>
         <method v="2">
-            <option name="Gradle.BeforeRunTask" enabled="true" tasks=":ChatMod:discord:shadowJar" externalProjectPath="$PROJECT_DIR$" vmOptions=""
-                    scriptParameters=""/>
+            <option name="RunConfigurationTask" enabled="true" run_configuration_name="Build ChatMod Discord Bot"
+                    run_configuration_type="GradleRunConfiguration"/>
         </method>
     </configuration>
 </component>

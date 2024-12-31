@@ -1,17 +1,17 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Debug Test Server" type="Remote" activateToolWindowBeforeRun="false">
-        <option name="USE_SOCKET_TRANSPORT" value="true"/>
-        <option name="SERVER_MODE" value="false"/>
-        <option name="SHMEM_ADDRESS"/>
-        <option name="HOST" value="localhost"/>
-        <option name="PORT" value="5005"/>
-        <option name="AUTO_RESTART" value="false"/>
-        <RunnerSettings RunnerId="Debug">
-            <option name="DEBUG_PORT" value="5005"/>
-            <option name="LOCAL" value="false"/>
-        </RunnerSettings>
-        <method v="2">
-            <option name="RunConfigurationTask" enabled="true" run_configuration_name="Paper Test Server" run_configuration_type="docker-deploy"/>
-        </method>
-    </configuration>
+  <configuration default="false" name="Debug Test Server" type="Remote" activateToolWindowBeforeRun="false">
+    <option name="USE_SOCKET_TRANSPORT" value="true"/>
+    <option name="SERVER_MODE" value="false"/>
+    <option name="SHMEM_ADDRESS"/>
+    <option name="HOST" value="localhost"/>
+    <option name="PORT" value="5005"/>
+    <option name="AUTO_RESTART" value="false"/>
+    <RunnerSettings RunnerId="Debug">
+      <option name="DEBUG_PORT" value="5005"/>
+      <option name="LOCAL" value="false"/>
+    </RunnerSettings>
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Paper Test Server + Include Bot" run_configuration_type="docker-deploy"/>
+    </method>
+  </configuration>
 </component>
