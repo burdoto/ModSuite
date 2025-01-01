@@ -6,9 +6,8 @@ volumes:
 services:
   init:
     image: ubuntu
-    command: >
-      sh -c "cp /data/plugins/ChatMod/config.${INCLUDE_BOT:-exclude}.yml /data/plugins/ChatMod/config.yml &&
-             mkdir -p /srv/world/world /srv/world/world_nether /srv/world/world_the_end"
+    command: |
+      cp -v /data/plugins/ChatMod/config.${INCLUDE_BOT:-exclude}.yml /data/plugins/ChatMod/config.yml
     volumes:
       - /srv/cred/discord:/srv/cred/discord:rw
       - plugins:/data/plugins:rw

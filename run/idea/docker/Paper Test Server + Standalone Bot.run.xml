@@ -16,6 +16,7 @@
           <option name="commandLineOptions" value="--build"/>
         <option name="services">
           <list>
+              <option value="init"/>
               <option value="discordbot"/>
               <option value="dev_server"/>
           </list>
