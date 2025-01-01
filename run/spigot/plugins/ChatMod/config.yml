@@ -2,6 +2,7 @@ server:
   name: '&dDEV'
 rabbitmq:
   uri: amqp://guest:guest@localhost:5672
+auto-reconnect-delay: 5
 #include-bot#discord_bot_token: '@/srv/cred/discord/mc-server-integration.txt'
 events:
   join_leave:
