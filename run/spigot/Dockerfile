@@ -13,6 +13,7 @@ COPY plugins/*.jar plugins/
 COPY plugins/LibMod/* plugins/LibMod/
 COPY plugins/BanMod/* plugins/BanMod/
 COPY plugins/WorldMod/* plugins/WorldMod/
+COPY plugins/LuckPerms/config.yml plugins/LuckPerms/config.yml
 
 # include/exclude bot configs
 COPY plugins/ChatMod/config.yml plugins/ChatMod/config.exclude.yml

@@ -9,18 +9,11 @@ COPY .defaults/* .
 # copy dev mods
 COPY server.jar .
 COPY mods/*.jar mods/
-RUN mkdir -p config/aurionchat
-COPY config/aurionchat/aurionchat.conf config/aurionchat/
 
 # copy dev configs
-#COPY config/LibMod/* config/LibMod/
-#COPY config/BanMod/* config/BanMod/
-#COPY config/WorldMod/* config/WorldMod/
-
-# include/exclude bot configs
-#COPY mods/ChatMod/config.yml mods/ChatMod/config.exclude.yml
-#COPY mods/ChatMod/config.yml mods/ChatMod/config.include.yml
-#RUN sed -i s/#include-bot#//g mods/ChatMod/config.include.yml
+RUN mkdir -p config/aurionchat config/luckperms
+COPY config/aurionchat/aurionchat.conf config/aurionchat/
+COPY config/luckperms/luckperms.conf config/luckperms/luckperms.conf
 
 # replace localhost adresses with docker hostnames
 RUN sed -i --debug "s|localhost:3306|database:3306|g" config/*/*.*

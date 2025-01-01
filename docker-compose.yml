@@ -4,6 +4,11 @@ volumes:
   plugins:
   config:
   mods:
+  spigot:
+  fabric:
+  botconfig:
+  database:
+  rabbitmq:
 
 networks:
   internal:
@@ -42,6 +47,7 @@ services:
       - ${DEV_HOME}/run/spigot/world_the_end:/data/world_the_end:rw
       # discord bot token location
       - /srv/cred/discord:/srv/cred/discord:r
+      - spigot:/data:rw
     ports:
       - "0.0.0.0:5005:5005"
       - "0.0.0.0:25565:25565"
@@ -76,6 +82,7 @@ services:
       - ${DEV_HOME}/run/fabric/world_the_end:/data/world_the_end:rw
       # discord bot token location
       - /srv/cred/discord:/srv/cred/discord:r
+      - fabric:/data:rw
     ports:
       - "0.0.0.0:5007:5007"
       - "0.0.0.0:25567:25567"
@@ -98,6 +105,7 @@ services:
       DEBUG: 'true'
     volumes:
       - /srv/cred/discord:/srv/cred/discord:r
+      - botconfig:/srv/chatmod:rw
     ports:
       - "0.0.0.0:5006:5006"
     depends_on:
@@ -127,6 +135,7 @@ services:
       retries: 3
     volumes:
       - ${DEV_HOME}/run/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql:r
+      - database:/var/lib/mysql:rw
 
   rabbitmq:
     hostname: rabbitmq
@@ -143,5 +152,7 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq:rw
     ports:
       - "0.0.0.0:55672:15672"
