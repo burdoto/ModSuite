@@ -9,17 +9,17 @@ events:
 channels:
   - global:
       alias: g
-  #include-bot#      discord:
-  #include-bot#        channel_id: 1134168099164270693 # comroid
-  #include-bot#        invite_url: 'https://discord.comroid.org'
+  #include-bot#    discord:
+  #include-bot#      channel_id: 1134168099164270693 # comroid
+  #include-bot#      invite_url: 'https://discord.comroid.org'
   - local:
       alias: l
       publish: false
   - staff:
       alias: s
       permission: chat.channel.staff
-#include-bot#      discord:
-#include-bot#        channel_id: 1134168086346485870 # comroid
+  #include-bot#    discord:
+  #include-bot#      channel_id: 1134168086346485870 # comroid
 compatibility:
   listeners: false
   aurionchat: none

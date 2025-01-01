@@ -1,24 +1,23 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Paper Test Server + Standalone Bot" type="docker-deploy" factoryName="docker-compose.yml" folderName="local"
-                   activateToolWindowBeforeRun="false" server-name="docker@local">
-        <deployment type="docker-compose.yml">
-            <settings>
-                <option name="envFilePath" value=""/>
-                <option name="removeImagesOnComposeDown" value="ALL"/>
-                <option name="commandLineOptions" value="--build"/>
-                <option name="services">
-                    <list>
-                        <option value="discordbot"/>
-                        <option value="paper_server"/>
-                    </list>
-                </option>
-                <option name="sourceFilePath" value="docker-compose.yml"/>
-            </settings>
-        </deployment>
-        <method v="2">
-            <option name="RunConfigurationTask" enabled="true" run_configuration_name="Prepare Spigot Test" run_configuration_type="GradleRunConfiguration"/>
-            <option name="RunConfigurationTask" enabled="true" run_configuration_name="Build ChatMod Discord Bot"
-                    run_configuration_type="GradleRunConfiguration"/>
-        </method>
-    </configuration>
+  <configuration default="false" name="Paper Test Server + Standalone Bot" type="docker-deploy" factoryName="docker-compose.yml" folderName="local"
+                 activateToolWindowBeforeRun="false" server-name="docker@local">
+    <deployment type="docker-compose.yml">
+      <settings>
+        <option name="envFilePath" value=""/>
+        <option name="removeImagesOnComposeDown" value="ALL"/>
+        <option name="commandLineOptions" value="--build"/>
+        <option name="services">
+          <list>
+            <option value="discordbot"/>
+            <option value="dev_server"/>
+          </list>
+        </option>
+        <option name="sourceFilePath" value="docker-compose.yml"/>
+      </settings>
+    </deployment>
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Prepare Spigot Test" run_configuration_type="GradleRunConfiguration"/>
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Build ChatMod Discord Bot" run_configuration_type="GradleRunConfiguration"/>
+    </method>
+  </configuration>
 </component>

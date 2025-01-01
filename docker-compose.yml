@@ -8,17 +8,17 @@ volumes:
 
 services:
   init:
-    container_name: "init"
     image: ubuntu
     command: >
-      sh -c "mkdir -p /srv/world/world /srv/world/world_nether /srv/world/world_the_end &&
-             cp /data/plugins/ChatMod/config.${INCLUDE_BOT:-exclude}.yml /data/plugins/ChatMod/config.yml"
+      sh -c "cp /data/plugins/ChatMod/config.${INCLUDE_BOT:-exclude}.yml /data/plugins/ChatMod/config.yml &&
+             mkdir -p /srv/world/world /srv/world/world_nether /srv/world/world_the_end &&
+             chown -R 9001:9001 /srv/cred/discord"
     volumes:
+      - /srv/cred/discord:/srv/cred/discord:rw
       - plugins:/data/plugins:rw
       - world:/srv/world:rw
 
-  paper_server:
-    container_name: "dev_server"
+  dev_server:
     build:
       context: run/spigot
     restart: on-failure
@@ -71,7 +71,6 @@ services:
         condition: service_healthy
 
   discordbot:
-    container_name: "discordbot"
     build:
       context: ChatMod/discord
     restart: on-failure
@@ -87,7 +86,6 @@ services:
 
   database:
     hostname: database
-    container_name: database
     image: mariadb
     restart: unless-stopped
     environment:
@@ -108,7 +106,6 @@ services:
 
   rabbitmq:
     hostname: rabbitmq
-    container_name: rabbitmq
     image: rabbitmq:3-management
     restart: unless-stopped
     environment:

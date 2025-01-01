@@ -16,7 +16,7 @@
         <option name="commandLineOptions" value="--build"/>
         <option name="services">
           <list>
-            <option value="paper_server"/>
+            <option value="dev_server"/>
           </list>
         </option>
         <option name="sourceFilePath" value="docker-compose.yml"/>
