@@ -1,5 +1,5 @@
 FROM marctv/minecraft-papermc-server:1.21.1
-LABEL authors="burdo"
+LABEL authors="Kaleidox"
 WORKDIR /data
 
 # copy server configuration defaults

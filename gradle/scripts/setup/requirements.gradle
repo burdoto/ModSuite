@@ -11,13 +11,12 @@ List<List<String>> files = [
         ["luckperms.jar", "run/spigot/plugins", "https://download.luckperms.net/1568/bukkit/loader/LuckPerms-Bukkit-5.4.151.jar"],
         //["spark.jar",          "run/spigot/plugins" , "https://cdn.modrinth.com/data/l6YH9Als/versions/mHuABI9W/spark-1.10.97-neoforge.jar"],
 
-        /*
-        ["fabric", "fabric", null, "https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.16.7/1.0.1/server/jar"],
-        ["arclight", "fabric", null, "https://github.com/IzzelAliz/Arclight/releases/download/FeudalKings%2F1.0.0-SNAPSHOT/arclight-fabric-1.21-1.0.0-SNAPSHOT.jar"],
-        ["fabric-api", "fabric", "mods", "https://cdn.modrinth.com/data/P7dR8mSH/versions/P7uGFii0/fabric-api-0.92.2%2B1.20.1.jar"],
-        ["luckperms", "fabric", "mods", "https://cdn.modrinth.com/data/Vebnzrzj/versions/oLykW1F8/LuckPerms-Fabric-5.4.139.jar"],
-        ["spark", "fabric", "mods", "https://cdn.modrinth.com/data/l6YH9Als/versions/qTSaozEL/spark-1.10.97-fabric.jar"],
-         */
+        ["fabric.jar", "/run/fabric", "https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.16.7/1.0.1/server/jar"],
+        //["arclight.jar", "/run/fabric", "https://github.com/IzzelAliz/Arclight/releases/download/FeudalKings%2F1.0.0-SNAPSHOT/arclight-fabric-1.21-1.0.0-SNAPSHOT.jar"],
+        ["fabric-api.jar", "/run/fabric/mods", "https://cdn.modrinth.com/data/P7dR8mSH/versions/P7uGFii0/fabric-api-0.92.2%2B1.20.1.jar"],
+        ["luckperms.jar", "/run/fabric/mods", "https://cdn.modrinth.com/data/Vebnzrzj/versions/oLykW1F8/LuckPerms-Fabric-5.4.139.jar"],
+        ["spark.jar", "/run/fabric/mods", "https://cdn.modrinth.com/data/l6YH9Als/versions/qTSaozEL/spark-1.10.97-fabric.jar"],
+        ["aurionchat.jar", "/run/fabric/mods", "https://github.com/Mineaurion/Aurionchat/releases/download/v0.17.0/AurionChat-fabric-latest-0.17.0.jar"],
 ]
 
 var dl = tasks.register('downloadRequirements') {

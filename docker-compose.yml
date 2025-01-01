@@ -12,7 +12,7 @@ services:
       - /srv/cred/discord:/srv/cred/discord:rw
       - plugins:/data/plugins:rw
 
-  dev_server:
+  spigot_server:
     build:
       context: run/spigot
     restart: on-failure
@@ -36,6 +36,35 @@ services:
     depends_on:
       init:
         condition: service_completed_successfully
+      database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  fabric_server:
+    build:
+      context: run/fabric
+    restart: on-failure
+    environment:
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      MAX_MEMORY: "4G"
+      TYPE: FABRIC
+      VERSION: '1.20.1'
+      EULA: true
+      DEBUG: true
+    volumes:
+      # dev mods from image
+      - mods:/data/mods:rw
+      # avoid world wipes
+      - ${DEV_HOME}/run/fabric/world:/data/world:rw
+      - ${DEV_HOME}/run/fabric/world_nether:/data/world_nether:rw
+      - ${DEV_HOME}/run/fabric/world_the_end:/data/world_the_end:rw
+      # discord bot token location
+      - /srv/cred/discord:/srv/cred/discord:r
+    ports:
+      - "0.0.0.0:5007:5005"
+      - "0.0.0.0:25567:25565"
+    depends_on:
       database:
         condition: service_healthy
       rabbitmq:

@@ -17,7 +17,7 @@
                 <option name="services">
                     <list>
                         <option value="init"/>
-                        <option value="dev_server"/>
+                        <option value="spigot_server"/>
                     </list>
                 </option>
                 <option name="sourceFilePath" value="docker-compose.yml"/>
