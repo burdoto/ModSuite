@@ -23,9 +23,9 @@ services:
       context: run/spigot
     restart: on-failure
     environment:
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       TZ: "Europe/Berlin"
       MEMORYSIZE: "4G"
-      JAVAFLAGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     volumes:
       # discord bot token location
       - /srv/cred/discord:/srv/cred/discord:r
@@ -74,7 +74,8 @@ services:
     build:
       context: ChatMod/discord
     restart: on-failure
-    entrypoint: "java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -jar app.jar"
+    environment:
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
     volumes:
       - discord:/srv/chatmod:rw
       - /srv/cred/discord:/srv/cred/discord:r

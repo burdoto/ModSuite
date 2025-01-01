@@ -20,6 +20,7 @@
           </list>
         </option>
         <option name="sourceFilePath" value="docker-compose.yml"/>
+        <option name="upForceRecreate" value="true"/>
       </settings>
     </deployment>
     <method v="2">
