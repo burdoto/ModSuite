@@ -33,12 +33,18 @@ apply from: 'gradle/scripts/setup/intellij.gradle'
 apply from: 'gradle/scripts/setup/global.gradle'
 
 subprojects { p ->
-    tasks.findByName('shadowJar')?.configure {
-        from project(":$p.parent.name:api").sourceSets.main.output
-        from project(":$p.parent.name:core").sourceSets.main.output
+    if (p.path.split(':').length != 3 || p.path.contains("AurionChat")) {
+        //println "out: $p"
+        return;
+    }
+    //println "in: $p"
+    p.tasks.findByName('shadowJar')?.configure {
+        //println "task: $it"
+        it.from project(":$p.parent.name:api").sourceSets.main.output
+        it.from project(":$p.parent.name:core").sourceSets.main.output
         if (p.parent.name == 'ChatMod') {
-            from project(":ChatMod:discord").sourceSets.main.output
-            from project(":ChatMod:AurionChatApi").sourceSets.main.output
+            it.from project(":ChatMod:discord").sourceSets.main.output
+            it.from project(":ChatMod:AurionChat:api").sourceSets.main.output
         }
     }
 }

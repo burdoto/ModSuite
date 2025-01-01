@@ -80,7 +80,8 @@ void includeMod(var key) {
 def includeThirdparty(parent, name, path) {
     include(":$parent:$name")
     def thirdparty = project(":$parent:$name".toString())
-    thirdparty.projectDir = file("./$parent/thirdparty/$path")
+    thirdparty.projectDir = file("./${parent.replace(':', File.separator)}/thirdparty/$path")
+    //println "$thirdparty -> $thirdparty.projectDir"
     return thirdparty
 }
 
@@ -91,7 +92,10 @@ includeMod('LibMod')
 includeMod('BanMod')
 
 includeMod('ChatMod')
-includeThirdparty('ChatMod', 'AurionChatApi', 'AurionChat/api')
+includeThirdparty('ChatMod', 'AurionChat', 'AurionChat')
+includeThirdparty('ChatMod', 'AurionChat:api', 'AurionChat/api')
+includeThirdparty('ChatMod', 'AurionChat:common', 'AurionChat/common')
+includeThirdparty('ChatMod', 'AurionChat:fabric', 'AurionChat/fabric')
 
 includeMod('WorldMod')
 

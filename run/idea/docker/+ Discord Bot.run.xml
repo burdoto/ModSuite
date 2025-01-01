@@ -1,0 +1,35 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="+ Discord Bot" type="docker-deploy" factoryName="docker-compose.yml" folderName="Additive"
+                   activateToolWindowBeforeRun="false" server-name="docker@local">
+        <deployment type="docker-compose.yml">
+            <settings>
+                <option name="envFilePath" value=""/>
+                <option name="envVars">
+                    <list>
+                        <DockerEnvVarImpl>
+                            <option name="name" value="DEV_HOME"/>
+                            <option name="value" value="."/>
+                        </DockerEnvVarImpl>
+                    </list>
+                </option>
+                <option name="profiles">
+                    <list>
+                        <option value="discordbot"/>
+                    </list>
+                </option>
+                <option name="removeImagesOnComposeDown" value="ALL"/>
+                <option name="commandLineOptions" value="--build"/>
+                <option name="services">
+                    <list>
+                        <option value="discordbot"/>
+                    </list>
+                </option>
+                <option name="sourceFilePath" value="docker-compose.yml"/>
+            </settings>
+        </deployment>
+        <method v="2">
+            <option name="RunConfigurationTask" enabled="true" run_configuration_name="Build ChatMod Discord Bot"
+                    run_configuration_type="GradleRunConfiguration"/>
+        </method>
+    </configuration>
+</component>

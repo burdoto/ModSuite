@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Paper Test Server + No Bot" type="docker-deploy" factoryName="docker-compose.yml" activateToolWindowBeforeRun="false"
-                   server-name="docker@local">
+    <configuration default="false" name="+ Backend" type="docker-deploy" factoryName="docker-compose.yml" folderName="Additive"
+                   activateToolWindowBeforeRun="false" server-name="docker@local">
         <deployment type="docker-compose.yml">
             <settings>
                 <option name="envFilePath" value=""/>
@@ -12,20 +12,22 @@
                         </DockerEnvVarImpl>
                     </list>
                 </option>
+                <option name="profiles">
+                    <list>
+                        <option value="backend"/>
+                    </list>
+                </option>
                 <option name="removeImagesOnComposeDown" value="ALL"/>
                 <option name="commandLineOptions" value="--build"/>
                 <option name="services">
                     <list>
-                        <option value="init"/>
-                        <option value="spigot_server"/>
+                        <option value="database"/>
+                        <option value="rabbitmq"/>
                     </list>
                 </option>
-                <option name="sourceFilePath" value="docker-compose.yml"/>
-                <option name="upForceRecreate" value="true"/>
+                <option name="sourceFilePath" value="docker-compose-background.yml"/>
             </settings>
         </deployment>
-        <method v="2">
-            <option name="RunConfigurationTask" enabled="false" run_configuration_name="Prepare Spigot Test" run_configuration_type="GradleRunConfiguration"/>
-        </method>
+        <method v="2"/>
     </configuration>
 </component>

@@ -23,4 +23,4 @@ channels:
   #include-bot#      channel_id: 1134168086346485870 # comroid
 compatibility:
   listeners: false
-  aurionchat: none
+  aurionchat: inherit

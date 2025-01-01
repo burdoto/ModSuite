@@ -2,10 +2,20 @@ name: modsuite
 
 volumes:
   plugins:
+  config:
+  mods:
+
+networks:
+  internal:
+    driver: ${NETWORK_MODE:-bridge}
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: 0.0.0.0
 
 services:
   init:
     image: ubuntu
+    networks: [ internal ]
+    profiles: [ server, discordbot ]
     command: |
       cp -v /data/plugins/ChatMod/config.${INCLUDE_BOT:-exclude}.yml /data/plugins/ChatMod/config.yml
     volumes:
@@ -16,8 +26,10 @@ services:
     build:
       context: run/spigot
     restart: on-failure
+    networks: [ internal ]
+    profiles: [ server ]
     environment:
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 #-Dlog4j.debug=true
       TZ: "Europe/Berlin"
       MEMORYSIZE: "4G"
       DEBUG: 'true'
@@ -35,25 +47,28 @@ services:
       - "0.0.0.0:25565:25565"
     depends_on:
       init:
+        restart: true
         condition: service_completed_successfully
       database:
+        required: false
         condition: service_healthy
       rabbitmq:
+        required: false
         condition: service_healthy
 
   fabric_server:
     build:
       context: run/fabric
     restart: on-failure
+    networks: [ internal ]
+    profiles: [ server ]
     environment:
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 #-Dlog4j.debug=true
       MAX_MEMORY: "4G"
-      TYPE: FABRIC
-      VERSION: '1.20.1'
-      EULA: true
       DEBUG: true
     volumes:
-      # dev mods from image
+      # dev mods & config from image
+      - config:/data/config:rw
       - mods:/data/mods:rw
       # avoid world wipes
       - ${DEV_HOME}/run/fabric/world:/data/world:rw
@@ -62,18 +77,22 @@ services:
       # discord bot token location
       - /srv/cred/discord:/srv/cred/discord:r
     ports:
-      - "0.0.0.0:5007:5005"
-      - "0.0.0.0:25567:25565"
+      - "0.0.0.0:5007:5007"
+      - "0.0.0.0:25567:25567"
     depends_on:
       database:
+        required: false
         condition: service_healthy
       rabbitmq:
+        required: false
         condition: service_healthy
 
   discordbot:
     build:
       context: ChatMod/discord
     restart: on-failure
+    networks: [ internal ]
+    profiles: [ discordbot ]
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
       DEBUG: 'true'
@@ -83,14 +102,18 @@ services:
       - "0.0.0.0:5006:5006"
     depends_on:
       init:
+        restart: true
         condition: service_completed_successfully
       rabbitmq:
+        required: false
         condition: service_healthy
 
   database:
     hostname: database
     image: mariadb:lts
     restart: unless-stopped
+    networks: [ internal ]
+    profiles: [ backend ]
     environment:
       MARIADB_USER: dev
       MARIADB_PASSWORD: dev
@@ -104,13 +127,13 @@ services:
       retries: 3
     volumes:
       - ${DEV_HOME}/run/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql:r
-    ports:
-      - "0.0.0.0:53306:3306"
 
   rabbitmq:
     hostname: rabbitmq
     image: rabbitmq:3-management
     restart: unless-stopped
+    networks: [ internal ]
+    profiles: [ backend ]
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest

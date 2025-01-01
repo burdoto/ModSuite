@@ -3,7 +3,7 @@ allprojects*.repositories {
     it.mavenCentral()
 }
 
-subprojects.findAll { it.plugins.hasPlugin('java') }.forEach { p ->
+subprojects.findAll { it.plugins.hasPlugin('java') && it.path.split(':').length == 3 }.forEach { p ->
     p.dependencies { d ->
         if (p.name == 'api') {
             d.api 'org.comroid:japi:+'

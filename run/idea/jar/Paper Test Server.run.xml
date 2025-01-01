@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Paper Test Server" type="JarApplication" activateToolWindowBeforeRun="false">
+    <configuration default="false" name="Paper Test Server" type="JarApplication" folderName="Server" activateToolWindowBeforeRun="false">
         <option name="JAR_PATH" value="$PROJECT_DIR$/run/spigot/paper.jar"/>
         <option name="VM_PARAMETERS" value="-Xmx2G"/>
         <option name="PROGRAM_PARAMETERS" value="nogui"/>

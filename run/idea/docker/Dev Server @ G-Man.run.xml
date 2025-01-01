@@ -1,32 +1,42 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Dev Server @ G-Man" type="docker-deploy" factoryName="docker-compose.yml" activateToolWindowBeforeRun="false"
-                 server-name="docker@gman">
+    <configuration default="false" name="Dev Server @ G-Man" type="docker-deploy" factoryName="docker-compose.yml" folderName="docker@gman"
+                   activateToolWindowBeforeRun="false" server-name="docker@gman">
     <deployment type="docker-compose.yml">
       <settings>
-        <option name="envFilePath" value=""/>
+          <option name="envFilePath" value=""/>
         <option name="envVars">
           <list>
             <DockerEnvVarImpl>
-              <option name="name" value="DEV_HOME"/>
-              <option name="value" value="/home/kaleidox/dev/ModSuite"/>
+                <option name="name" value="DEV_HOME"/>
+                <option name="value" value="/home/kaleidox/dev/ModSuite"/>
             </DockerEnvVarImpl>
+              <DockerEnvVarImpl>
+                  <option name="name" value="NETWORK_MODE"/>
+                  <option name="value" value="host"/>
+              </DockerEnvVarImpl>
           </list>
         </option>
-        <option name="removeImagesOnComposeDown" value="ALL"/>
-        <option name="commandLineOptions" value="--build"/>
+          <option name="profiles">
+              <list>
+                  <option value="server"/>
+                  <option value="discordbot"/>
+          </list>
+        </option>
+          <option name="removeImagesOnComposeDown" value="ALL"/>
+          <option name="commandLineOptions" value="--build"/>
         <option name="services">
           <list>
-            <option value="init"/>
-            <option value="spigot_server"/>
-            <option value="discordbot"/>
+              <option value="spigot_server"/>
+              <option value="discordbot"/>
           </list>
         </option>
-        <option name="sourceFilePath" value="docker-compose.yml"/>
-        <option name="upForceRecreate" value="true"/>
+          <option name="sourceFilePath" value="docker-compose.yml"/>
+          <option name="upForceRecreate" value="true"/>
       </settings>
     </deployment>
     <method v="2">
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Prepare Spigot Test" run_configuration_type="GradleRunConfiguration"/>
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="Prepare Spigot Test" run_configuration_type="GradleRunConfiguration"/>
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="Build ChatMod Discord Bot" run_configuration_type="GradleRunConfiguration"/>
     </method>
   </configuration>
 </component>
