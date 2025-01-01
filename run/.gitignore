@@ -1,6 +1,7 @@
 *.*
 
 database/
+!database/dump.sql
 
 # server related files
 !*/eula.txt

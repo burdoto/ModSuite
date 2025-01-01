@@ -21,6 +21,7 @@ services:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       TZ: "Europe/Berlin"
       MEMORYSIZE: "4G"
+      DEBUG: 'true'
     volumes:
       # dev plugins from image
       - plugins:/data/plugins:rw
@@ -47,6 +48,7 @@ services:
     restart: on-failure
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
+      DEBUG: 'true'
     volumes:
       - /srv/cred/discord:/srv/cred/discord:r
     ports:
@@ -59,7 +61,7 @@ services:
 
   database:
     hostname: database
-    image: mariadb
+    image: mariadb:lts
     restart: unless-stopped
     environment:
       MARIADB_USER: dev
@@ -73,8 +75,7 @@ services:
       timeout: 30s
       retries: 3
     volumes:
-      #- ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:z
-      - ${DEV_HOME}/run/database:/var/lib/mysql/:rw
+      - ${DEV_HOME}/run/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql:r
     ports:
       - "0.0.0.0:53306:3306"
 

@@ -4,6 +4,14 @@
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value=""/>
+        <option name="envVars">
+          <list>
+            <DockerEnvVarImpl>
+              <option name="name" value="DEV_HOME"/>
+              <option name="value" value="."/>
+            </DockerEnvVarImpl>
+          </list>
+        </option>
         <option name="removeImagesOnComposeDown" value="ALL"/>
         <option name="services">
           <list>

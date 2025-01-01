@@ -5,7 +5,7 @@ volumes:
 
 services:
   database:
-    image: mariadb
+    image: mariadb:lts
     restart: unless-stopped
     network_mode: host
     environment:
@@ -20,7 +20,7 @@ services:
       timeout: 30s
       retries: 3
     volumes:
-      - ./run/database:/var/lib/mysql/:rw
+      - ${DEV_HOME}/run/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql:r
 
   rabbitmq:
     image: rabbitmq:3-management
