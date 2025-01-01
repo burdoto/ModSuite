@@ -4,6 +4,7 @@ volumes:
   world:
   plugins:
   discord:
+  caches:
   database:
 
 services:
@@ -50,15 +51,6 @@ services:
         volume:
           nocopy: true
           subpath: world_the_end
-      # avoid wiping internal server caches
-      - type: tmpfs
-        target: /data/libraries
-      - type: tmpfs
-        target: /data/cache
-      - type: tmpfs
-        target: /data/versions
-      - type: tmpfs
-        target: /data/plugins/.paper-remapped
     ports:
       - "0.0.0.0:5005:5005"
       - "0.0.0.0:25565:25565"
