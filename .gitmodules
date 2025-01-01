@@ -1,3 +1,6 @@
+[submodule "japi"]
+	path = japi
+	url = https://github.com/comroid-git/japi
 [submodule "LibMod"]
 	path = LibMod
 	url = https://github.com/AMPZNetwork/LibMod

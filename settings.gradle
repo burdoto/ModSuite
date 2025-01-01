@@ -13,7 +13,7 @@ pluginManagement {
         mavenCentral()
     }
 
-    includeBuild('../japi') { name = 'japi' }
+    includeBuild('japi')
     includeBuild('gradle') { name = 'buildscripts' }
 }
 
