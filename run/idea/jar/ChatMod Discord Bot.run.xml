@@ -10,6 +10,7 @@
         <method v="2">
             <option name="RunConfigurationTask" enabled="true" run_configuration_name="Build ChatMod Discord Bot"
                     run_configuration_type="GradleRunConfiguration"/>
+            <option name="RunConfigurationTask" enabled="true" run_configuration_name="Background Services" run_configuration_type="docker-deploy"/>
         </method>
     </configuration>
 </component>

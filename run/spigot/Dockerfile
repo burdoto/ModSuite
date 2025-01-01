@@ -24,4 +24,4 @@ RUN sed -i "s|localhost:3306|database:3306|g" plugins/*/config.yml
 RUN sed -i "s|localhost:5672|rabbitmq:5672|g" plugins/*/config.yml
 
 # create world dirs for volume
-RUN mkdir world world_nether world_the_end
+#RUN mkdir world world_nether world_the_end

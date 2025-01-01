@@ -1,23 +1,17 @@
 name: modsuite
 
 volumes:
-  world:
   plugins:
-  discord:
-  caches:
-  database:
 
 services:
   init:
     image: ubuntu
     command: >
       sh -c "cp /data/plugins/ChatMod/config.${INCLUDE_BOT:-exclude}.yml /data/plugins/ChatMod/config.yml &&
-             mkdir -p /srv/world/world /srv/world/world_nether /srv/world/world_the_end &&
-             chown -R 9001:9001 /srv/cred/discord"
+             mkdir -p /srv/world/world /srv/world/world_nether /srv/world/world_the_end"
     volumes:
       - /srv/cred/discord:/srv/cred/discord:rw
       - plugins:/data/plugins:rw
-      - world:/srv/world:rw
 
   dev_server:
     build:
@@ -28,29 +22,14 @@ services:
       TZ: "Europe/Berlin"
       MEMORYSIZE: "4G"
     volumes:
+      # dev plugins from image
+      - plugins:/data/plugins:rw
+      # avoid world wipes
+      - ${DEV_HOME}/run/spigot/world:/data/world:rw
+      - ${DEV_HOME}/run/spigot/world_nether:/data/world_nether:rw
+      - ${DEV_HOME}/run/spigot/world_the_end:/data/world_the_end:rw
       # discord bot token location
       - /srv/cred/discord:/srv/cred/discord:r
-      # secure plugin & config location
-      - plugins:/data/plugins:rw
-      # reduce world wipes
-      - type: volume
-        source: world
-        target: /data/world
-        volume:
-          nocopy: true
-          subpath: world
-      - type: volume
-        source: world
-        target: /data/world_nether
-        volume:
-          nocopy: true
-          subpath: world_nether
-      - type: volume
-        source: world
-        target: /data/world_the_end
-        volume:
-          nocopy: true
-          subpath: world_the_end
     ports:
       - "0.0.0.0:5005:5005"
       - "0.0.0.0:25565:25565"
@@ -69,11 +48,12 @@ services:
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
     volumes:
-      - discord:/srv/chatmod:rw
       - /srv/cred/discord:/srv/cred/discord:r
     ports:
       - "0.0.0.0:5006:5006"
     depends_on:
+      init:
+        condition: service_completed_successfully
       rabbitmq:
         condition: service_healthy
 
@@ -93,7 +73,8 @@ services:
       timeout: 30s
       retries: 3
     volumes:
-      - database:/var/lib/mysql/:rw
+      #- ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:z
+      - ${DEV_HOME}/run/database:/var/lib/mysql/:rw
     ports:
       - "0.0.0.0:53306:3306"
 

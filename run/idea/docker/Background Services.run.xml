@@ -11,7 +11,7 @@
             <option value="rabbitmq"/>
           </list>
         </option>
-        <option name="sourceFilePath" value="docker-compose.yml"/>
+        <option name="sourceFilePath" value="docker-compose-background.yml"/>
       </settings>
     </deployment>
     <method v="2"/>

@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ChatMod Discord Bot" type="docker-deploy" factoryName="docker-compose.yml" activateToolWindowBeforeRun="false"
-                 server-name="docker@local">
+  <configuration default="false" name="Dev Server @ G-Man" type="docker-deploy" factoryName="docker-compose.yml" activateToolWindowBeforeRun="false"
+                 server-name="docker@gman">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value=""/>
@@ -8,7 +8,7 @@
           <list>
             <DockerEnvVarImpl>
               <option name="name" value="DEV_HOME"/>
-              <option name="value" value="."/>
+              <option name="value" value="/home/kaleidox/dev/ModSuite"/>
             </DockerEnvVarImpl>
           </list>
         </option>
@@ -16,6 +16,7 @@
         <option name="commandLineOptions" value="--build"/>
         <option name="services">
           <list>
+            <option value="dev_server"/>
             <option value="discordbot"/>
           </list>
         </option>
@@ -24,7 +25,7 @@
       </settings>
     </deployment>
     <method v="2">
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Build ChatMod Discord Bot" run_configuration_type="GradleRunConfiguration"/>
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Prepare Spigot Test" run_configuration_type="GradleRunConfiguration"/>
     </method>
   </configuration>
 </component>

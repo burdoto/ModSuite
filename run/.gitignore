@@ -1,5 +1,7 @@
 *.*
 
+database/
+
 # server related files
 !*/eula.txt
 
