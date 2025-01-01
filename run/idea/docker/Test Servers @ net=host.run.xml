@@ -10,10 +10,6 @@
                             <option name="name" value="DEV_HOME"/>
                             <option name="value" value="."/>
                         </DockerEnvVarImpl>
-                        <DockerEnvVarImpl>
-                            <option name="name" value="NETWORK_MODE"/>
-                            <option name="value" value="host"/>
-                        </DockerEnvVarImpl>
                     </list>
                 </option>
                 <option name="profiles">

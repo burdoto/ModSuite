@@ -10,16 +10,11 @@
                 <option name="name" value="DEV_HOME"/>
                 <option name="value" value="/home/kaleidox/dev/ModSuite"/>
             </DockerEnvVarImpl>
-              <DockerEnvVarImpl>
-                  <option name="name" value="NETWORK_MODE"/>
-                  <option name="value" value="host"/>
-              </DockerEnvVarImpl>
           </list>
         </option>
           <option name="profiles">
               <list>
-                  <option value="server"/>
-                  <option value="discordbot"/>
+                  <option value="*"/>
           </list>
         </option>
           <option name="removeImagesOnComposeDown" value="ALL"/>
@@ -27,6 +22,7 @@
         <option name="services">
           <list>
               <option value="spigot_server"/>
+              <option value="fabric_server"/>
               <option value="discordbot"/>
           </list>
         </option>
@@ -36,6 +32,7 @@
     </deployment>
     <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="Prepare Spigot Test" run_configuration_type="GradleRunConfiguration"/>
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="Prepare Fabric Test" run_configuration_type="GradleRunConfiguration"/>
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="Build ChatMod Discord Bot" run_configuration_type="GradleRunConfiguration"/>
     </method>
   </configuration>

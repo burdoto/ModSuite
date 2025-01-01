@@ -8,7 +8,7 @@
                     <list>
                         <DockerEnvVarImpl>
                             <option name="name" value="DEV_HOME"/>
-                            <option name="value" value=".,NETWORK_MODE=bridge"/>
+                            <option name="value" value="."/>
                         </DockerEnvVarImpl>
                     </list>
                 </option>

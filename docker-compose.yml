@@ -1,18 +1,26 @@
 name: modsuite
 
 volumes:
-  plugins:
   config:
+    name: "modsuite___temp_modconfig"
   mods:
-  spigot:
-  fabric:
+    name: "modsuite___temp_mods"
+  plugins:
+    name: "modsuite___temp_plugins"
   botconfig:
+    name: "modsuite__botconfig"
+  fabric:
+    name: "modsuite__fabric"
+  spigot:
+    name: "modsuite__spigot"
   database:
+    name: "modsuite_database"
   rabbitmq:
+    name: "modsuite_rabbitmq"
 
 networks:
   internal:
-    driver: ${NETWORK_MODE:-bridge}
+    driver: bridge
     driver_opts:
       com.docker.network.bridge.host_binding_ipv4: 0.0.0.0
 
@@ -35,9 +43,7 @@ services:
     profiles: [ server ]
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 #-Dlog4j.debug=true
-      TZ: "Europe/Berlin"
-      MEMORYSIZE: "4G"
-      DEBUG: 'true'
+      MAX_MEMORY: "2G"
     volumes:
       # dev plugins from image
       - plugins:/data/plugins:rw
@@ -61,6 +67,8 @@ services:
       rabbitmq:
         required: false
         condition: service_healthy
+    stdin_open: true
+    tty: true
 
   fabric_server:
     build:
@@ -70,8 +78,7 @@ services:
     profiles: [ server ]
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 #-Dlog4j.debug=true
-      MAX_MEMORY: "4G"
-      DEBUG: true
+      MAX_MEMORY: "2G"
     volumes:
       # dev mods & config from image
       - config:/data/config:rw
@@ -93,6 +100,8 @@ services:
       rabbitmq:
         required: false
         condition: service_healthy
+    stdin_open: true
+    tty: true
 
   discordbot:
     build:
@@ -101,8 +110,7 @@ services:
     networks: [ internal ]
     profiles: [ discordbot ]
     environment:
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
-      DEBUG: 'true'
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 #-Dlog4j.debug=true
     volumes:
       - /srv/cred/discord:/srv/cred/discord:r
       - botconfig:/srv/chatmod:rw
@@ -115,6 +123,8 @@ services:
       rabbitmq:
         required: false
         condition: service_healthy
+    stdin_open: true
+    tty: true
 
   database:
     hostname: database
@@ -136,6 +146,8 @@ services:
     volumes:
       - ${DEV_HOME}/run/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql:r
       - database:/var/lib/mysql:rw
+    ports:
+      - "0.0.0.0:53306:3306"
 
   rabbitmq:
     hostname: rabbitmq

@@ -3,11 +3,11 @@ LABEL authors="Kaleidox"
 WORKDIR /data
 
 # copy server configuration defaults
+COPY server.jar .
 COPY eula.txt .
 COPY .defaults/* .
 
 # copy dev mods
-COPY server.jar .
 COPY mods/*.jar mods/
 
 # copy dev configs
@@ -22,4 +22,4 @@ RUN sed -i --debug "s|localhost:5672|rabbitmq:5672|g" config/*/*.*
 # create world dirs for volume
 #RUN mkdir world world_nether world_the_end
 
-CMD "java" "-Xmx${MAX_MEMORY:-4G}" "-jar" "server.jar" "nogui"
+CMD "java" "-Xmx${MAX_MEMORY:-2G}" "-jar" "server.jar" "nogui"

@@ -1,8 +1,9 @@
-FROM marctv/minecraft-papermc-server:1.21.1
+FROM eclipse-temurin:21-jdk
 LABEL authors="Kaleidox"
 WORKDIR /data
 
 # copy server configuration defaults
+COPY paper.jar .
 COPY eula.txt .
 COPY .defaults/* .
 
@@ -24,5 +25,4 @@ RUN sed -i s/#include-bot#//g plugins/ChatMod/config.include.yml
 RUN sed -i "s|localhost:3306|database:3306|g" plugins/*/config*.yml
 RUN sed -i "s|localhost:5672|rabbitmq:5672|g" plugins/*/config*.yml
 
-# create world dirs for volume
-#RUN mkdir world world_nether world_the_end
+CMD "java" "-Xmx${MAX_MEMORY:-2G}" "-jar" "paper.jar" "nogui"
