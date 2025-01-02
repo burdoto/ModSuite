@@ -18,12 +18,14 @@ COPY plugins/WorldMod/* plugins/WorldMod/
 COPY plugins/LuckPerms/config.yml plugins/LuckPerms/config.yml
 
 # include/exclude bot configs
-COPY plugins/ChatMod/config.yml plugins/ChatMod/config.exclude.yml
-COPY plugins/ChatMod/config.yml plugins/ChatMod/config.include.yml
-RUN sed -i s/#include-bot#//g plugins/ChatMod/config.include.yml
+RUN mkdir plugins/ChatMod
+COPY plugins/ChatMod/config.yml plugins/ChatMod/config.yml
+RUN sed "s/#$INCLUDE_BOT-bot#//g"
 
 # replace localhost adresses with docker hostnames
 RUN sed -i "s|localhost:3306|database:3306|g" plugins/*/config*.yml
 RUN sed -i "s|localhost:5672|rabbitmq:5672|g" plugins/*/config*.yml
+
+VOLUME /data/plugins
 
 CMD "java" "-Xmx${MAX_MEMORY:-2G}" "-jar" "paper.jar" "nogui"

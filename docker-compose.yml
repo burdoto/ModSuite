@@ -25,16 +25,6 @@ networks:
       com.docker.network.bridge.host_binding_ipv4: 0.0.0.0
 
 services:
-  init:
-    image: ubuntu
-    networks: [ internal ]
-    profiles: [ server, discordbot ]
-    command: |
-      cp -v /data/plugins/ChatMod/config.${INCLUDE_BOT:-exclude}.yml /data/plugins/ChatMod/config.yml
-    volumes:
-      - /srv/cred/discord:/srv/cred/discord:rw
-      - plugins:/data/plugins:rw
-
   spigot_server:
     build:
       context: run/spigot
@@ -58,9 +48,6 @@ services:
       - "0.0.0.0:5005:5005"
       - "0.0.0.0:25565:25565"
     depends_on:
-      init:
-        restart: true
-        condition: service_completed_successfully
       database:
         required: false
         condition: service_healthy
@@ -117,9 +104,6 @@ services:
     ports:
       - "0.0.0.0:5006:5006"
     depends_on:
-      init:
-        restart: true
-        condition: service_completed_successfully
       rabbitmq:
         required: false
         condition: service_healthy

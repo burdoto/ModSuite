@@ -23,4 +23,7 @@ RUN sed -i --debug "s|localhost:5672|rabbitmq:5672|g" config/*/*.*
 # create world dirs for volume
 #RUN mkdir world world_nether world_the_end
 
+VOLUME /data/mods
+VOLUME /data/config
+
 CMD "java" "-Xmx${MAX_MEMORY:-2G}" "-jar" "server.jar" "nogui"
