@@ -1,6 +1,7 @@
 FROM eclipse-temurin:21-jdk
 LABEL authors="Kaleidox"
 WORKDIR /data
+STOPSIGNAL SIGINT
 
 # copy server configuration defaults
 COPY server.jar .

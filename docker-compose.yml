@@ -1,18 +1,18 @@
 name: modsuite
 
 volumes:
-  config:
-    name: "modsuite___temp_modconfig"
-  mods:
-    name: "modsuite___temp_mods"
   plugins:
-    name: "modsuite___temp_plugins"
+    name: "modsuite____plugins"
   botconfig:
-    name: "modsuite__botconfig"
+    name: "modsuite___botconfig"
+  mods:
+    name: "modsuite____mods"
+  config:
+    name: "modsuite___modconfig"
   fabric:
-    name: "modsuite__fabric"
+    name: "modsuite__fabric_serverdata"
   spigot:
-    name: "modsuite__spigot"
+    name: "modsuite__spigot_serverdata"
   database:
     name: "modsuite_database"
   rabbitmq:
