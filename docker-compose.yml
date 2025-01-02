@@ -23,13 +23,18 @@ networks:
     driver: bridge
     driver_opts:
       com.docker.network.bridge.host_binding_ipv4: 0.0.0.0
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
 
 services:
   spigot_server:
     build:
       context: run/spigot
     restart: on-failure
-    networks: [ internal ]
+    networks:
+      internal:
+        ipv4_address: 10.0.0.2
     profiles: [ server ]
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 #-Dlog4j.debug=true
@@ -61,7 +66,9 @@ services:
     build:
       context: run/fabric
     restart: on-failure
-    networks: [ internal ]
+    networks:
+      internal:
+        ipv4_address: 10.0.0.3
     profiles: [ server ]
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 #-Dlog4j.debug=true
@@ -94,7 +101,9 @@ services:
     build:
       context: ChatMod/discord
     restart: on-failure
-    networks: [ internal ]
+    networks:
+      internal:
+        ipv4_address: 10.0.0.4
     profiles: [ discordbot ]
     environment:
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 #-Dlog4j.debug=true
@@ -114,7 +123,9 @@ services:
     hostname: database
     image: mariadb:lts
     restart: unless-stopped
-    networks: [ internal ]
+    networks:
+      internal:
+        ipv4_address: 10.0.0.100
     profiles: [ backend ]
     environment:
       MARIADB_USER: dev
@@ -137,7 +148,9 @@ services:
     hostname: rabbitmq
     image: rabbitmq:3-management
     restart: unless-stopped
-    networks: [ internal ]
+    networks:
+      internal:
+        ipv4_address: 10.0.0.101
     profiles: [ backend ]
     environment:
       RABBITMQ_DEFAULT_USER: guest
