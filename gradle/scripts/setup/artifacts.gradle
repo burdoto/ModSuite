@@ -8,10 +8,10 @@ static String capitalize(String str) {
         ['fabric', 'mods', 'remappedShadowJar']
 ].forEach { notation ->
     var type = notation[0]
-    tasks.register("prepare${capitalize(type)}Test") {
-        group = 'test setup'
-    }.get().dependsOn subprojects.findAll { it.name == type }
+    subprojects.findAll { it.name == type }
             .collect { p ->
+                if (p.parent.name == 'AurionChat' || p.name != 'fabric')
+                    return null
                 def result = p.tasks.findByName(notation[2]) ?: p.tasks.findByName('jar')
                 if (result == null) println "Could not find suitable artifact task for $p.path"
                 return result
@@ -25,5 +25,10 @@ static String capitalize(String str) {
                     into "$rootDir/run/$type/${notation[1]}"
                     rename { "${t.project.parent.name}.jar" }
                 }.get()
+            }
+            .forEach { c ->
+                tasks.register("prepare${capitalize(type)}Test") {
+                    group = 'test setup'
+                }.get().dependsOn c
             }
 }
