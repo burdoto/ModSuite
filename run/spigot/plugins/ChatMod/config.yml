@@ -1,5 +1,5 @@
 server:
-  name: '&dDEV'
+  name: '&dDEV-SP'
 rabbitmq:
   uri: amqp://guest:guest@localhost:5672
 auto-reconnect-delay: 5
