@@ -37,8 +37,8 @@ services:
         ipv4_address: 10.0.0.2
     profiles: [ server ]
     environment:
-      DEBUG: true
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Dlog4j.debug=true
+      #DEBUG: true
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 #-Dlog4j.debug=true
       MAX_MEMORY: "2G"
     volumes:
       # dev plugins from image
@@ -72,8 +72,8 @@ services:
         ipv4_address: 10.0.0.3
     profiles: [ server ]
     environment:
-      DEBUG: true
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -Dlog4j.debug=true
+      #DEBUG: true
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 #-Dlog4j.debug=true
       MAX_MEMORY: "2G"
     volumes:
       # dev mods & config from image
@@ -108,8 +108,8 @@ services:
         ipv4_address: 10.0.0.4
     profiles: [ discordbot ]
     environment:
-      DEBUG: true
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -Dlog4j.debug=true
+      #DEBUG: true
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 #-Dlog4j.debug=true
     volumes:
       - /srv/cred/discord:/srv/cred/discord:r
       - botconfig:/srv/chatmod:rw
