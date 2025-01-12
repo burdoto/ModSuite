@@ -13,19 +13,19 @@ modules:
 #include-bot#      token: '@/srv/cred/discord/mc-server-integration.txt'
 
 channels:
-  - global:
-      alias: g
-  #include-bot#    discord:
-  #include-bot#      channel_id: 1324457917340188702 # comroid
-  #include-bot#      invite_url: 'https://discord.comroid.org'
-  - local:
-      alias: l
-      publish: false
-  - staff:
-      alias: s
-      permission: chat.channel.staff
-  #include-bot#    discord:
-  #include-bot#      channel_id: 1324457993131262055 # comroid
+  global:
+    alias: g
+  #include-bot#  discord:
+  #include-bot#    channel_id: 1324457917340188702 # comroid
+  #include-bot#    invite_url: 'https://discord.comroid.org'
+  local:
+    alias: l
+    publish: false
+  staff:
+    alias: s
+    permission: chat.channel.staff
+  #include-bot#  discord:
+  #include-bot#    channel_id: 1324457993131262055 # comroid
 
 compatibility:
   listeners: false
