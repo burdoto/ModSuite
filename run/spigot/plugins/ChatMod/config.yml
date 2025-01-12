@@ -1,12 +1,17 @@
 server:
   name: '&dDEV-SP'
-rabbitmq:
-  uri: amqp://guest:guest@localhost:5672
-auto-reconnect-delay: 5
-#include-bot#discord_bot_token: '@/srv/cred/discord/mc-server-integration.txt'
-events:
-  join_leave:
-    channels: 'global'
+
+modules:
+  log: true
+  minecraft:
+    autoReconnectDelay: 0
+  rabbitmq:
+    enable: true
+    rabbitUri: amqp://guest:guest@localhost:5672
+#include-bot#    discord:
+#include-bot#      enable: true
+#include-bot#      token: '@/srv/cred/discord/mc-server-integration.txt'
+
 channels:
   - global:
       alias: g
@@ -21,6 +26,7 @@ channels:
       permission: chat.channel.staff
   #include-bot#    discord:
   #include-bot#      channel_id: 1324457993131262055 # comroid
+
 compatibility:
   listeners: false
   aurionchat: inherit
