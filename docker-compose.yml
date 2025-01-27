@@ -25,7 +25,7 @@ networks:
       com.docker.network.bridge.host_binding_ipv4: 0.0.0.0
     ipam:
       config:
-        - subnet: 10.0.0.0/16
+        - subnet: 10.0.10.0/16
 
 services:
   spigot_server:
@@ -34,11 +34,11 @@ services:
     restart: on-failure
     networks:
       internal:
-        ipv4_address: 10.0.0.2
+        ipv4_address: 10.0.10.2
     profiles: [ server ]
     environment:
-      #DEBUG: true
-      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 #-Dlog4j.debug=true
+      DEBUG: true
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Dlog4j.debug=true
       MAX_MEMORY: "2G"
     volumes:
       # dev plugins from image
@@ -69,7 +69,7 @@ services:
     restart: on-failure
     networks:
       internal:
-        ipv4_address: 10.0.0.3
+        ipv4_address: 10.0.10.3
     profiles: [ server ]
     environment:
       #DEBUG: true
@@ -105,7 +105,7 @@ services:
     restart: on-failure
     networks:
       internal:
-        ipv4_address: 10.0.0.4
+        ipv4_address: 10.0.10.4
     profiles: [ discordbot ]
     environment:
       #DEBUG: true
@@ -128,7 +128,7 @@ services:
     restart: unless-stopped
     networks:
       internal:
-        ipv4_address: 10.0.0.100
+        ipv4_address: 10.0.10.100
     profiles: [ backend ]
     environment:
       MARIADB_USER: dev
@@ -153,7 +153,7 @@ services:
     restart: unless-stopped
     networks:
       internal:
-        ipv4_address: 10.0.0.101
+        ipv4_address: 10.0.10.101
     profiles: [ backend ]
     environment:
       RABBITMQ_DEFAULT_USER: guest
