@@ -12,9 +12,10 @@ COPY .defaults/* .
 COPY plugins/*.jar plugins/
 
 # copy dev configs
-COPY plugins/LibMod/* plugins/LibMod/
-COPY plugins/BanMod/* plugins/BanMod/
-COPY plugins/WorldMod/* plugins/WorldMod/
+COPY plugins/LibMod/config.yml plugins/LibMod/
+COPY plugins/BanMod/config.yml plugins/BanMod/
+COPY plugins/WorldMod/config.yml plugins/WorldMod/
+COPY plugins/WorldMod/worlds/world.wmq plugins/WorldMod/worlds/
 COPY plugins/LuckPerms/config.yml plugins/LuckPerms/config.yml
 
 # include/exclude bot configs
