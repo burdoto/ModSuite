@@ -1,1 +1,3 @@
 deny flag=craft target=minecraft:stone_hoe
+allow flag=interact target~=waystone
+allow flag=interact,break target~=grave
