@@ -1,3 +1,6 @@
 deny flag=craft target=minecraft:stone_hoe
+
 allow flag=interact target~=waystone
 allow flag=interact,break target~=grave
+
+conditional flag=build.place expr=build.place-build.break value<=14 type=obsidian message=limit.obsidian
