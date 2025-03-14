@@ -9,10 +9,12 @@ volumes:
     name: "modsuite____mods"
   config:
     name: "modsuite___modconfig"
-  fabric:
-    name: "modsuite__fabric_serverdata"
   spigot:
     name: "modsuite__spigot_serverdata"
+  arclight:
+    name: "modsuite__arclight_serverdata"
+  fabric:
+    name: "modsuite__fabric_serverdata"
   database:
     name: "modsuite_database"
   rabbitmq:
@@ -31,6 +33,7 @@ services:
   spigot_server:
     build:
       context: run/spigot
+      dockerfile: paper.Dockerfile
     restart: on-failure
     networks:
       internal:
@@ -63,13 +66,49 @@ services:
     stdin_open: true
     tty: true
 
+  arclight_server:
+    build:
+      context: run/spigot
+      dockerfile: arclight.Dockerfile
+    restart: on-failure
+    networks:
+      internal:
+        ipv4_address: 10.0.10.3
+    profiles: [ server ]
+    environment:
+      DEBUG: true
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 #-Dlog4j.debug=true
+      MAX_MEMORY: "2G"
+    volumes:
+      # dev plugins from image
+      - plugins:/data/plugins:rw
+      # avoid world wipes
+      - ${DEV_HOME}/run/spigot/world:/data/world:rw
+      - ${DEV_HOME}/run/spigot/world_nether:/data/world_nether:rw
+      - ${DEV_HOME}/run/spigot/world_the_end:/data/world_the_end:rw
+      # discord bot token location
+      - /srv/cred/discord:/srv/cred/discord:r
+      - arclight:/data:rw
+    ports:
+      - "0.0.0.0:5006:5005"
+      - "0.0.0.0:15566:25565"
+    depends_on:
+      database:
+        required: false
+        condition: service_healthy
+      rabbitmq:
+        required: false
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+
   fabric_server:
     build:
       context: run/fabric
     restart: on-failure
     networks:
       internal:
-        ipv4_address: 10.0.10.3
+        ipv4_address: 10.0.10.4
     profiles: [ server ]
     environment:
       DEBUG: true
