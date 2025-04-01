@@ -47,9 +47,9 @@ services:
       # dev plugins from image
       - plugins:/data/plugins:rw
       # avoid world wipes
-      - ${DEV_HOME}/run/spigot/world:/data/world:rw
-      - ${DEV_HOME}/run/spigot/world_nether:/data/world_nether:rw
-      - ${DEV_HOME}/run/spigot/world_the_end:/data/world_the_end:rw
+      - ./run/spigot/world:/data/world:rw
+      - ./run/spigot/world_nether:/data/world_nether:rw
+      - ./run/spigot/world_the_end:/data/world_the_end:rw
       # discord bot token location
       - /srv/cred/discord:/srv/cred/discord:r
       - spigot:/data:rw
@@ -72,6 +72,7 @@ services:
       dockerfile: arclight.Dockerfile
     restart: on-failure
     networks:
+      default: # relay
       internal:
         ipv4_address: 10.0.10.3
     profiles: [ server ]
@@ -83,9 +84,9 @@ services:
       # dev plugins from image
       - plugins:/data/plugins:rw
       # avoid world wipes
-      - ${DEV_HOME}/run/spigot/world:/data/world:rw
-      - ${DEV_HOME}/run/spigot/world_nether:/data/world_nether:rw
-      - ${DEV_HOME}/run/spigot/world_the_end:/data/world_the_end:rw
+      - ./run/spigot/world:/data/world:rw
+      - ./run/spigot/world_nether:/data/world_nether:rw
+      - ./run/spigot/world_the_end:/data/world_the_end:rw
       # discord bot token location
       - /srv/cred/discord:/srv/cred/discord:r
       - arclight:/data:rw
@@ -119,9 +120,9 @@ services:
       - config:/data/config:rw
       - mods:/data/mods:rw
       # avoid world wipes
-      - ${DEV_HOME}/run/fabric/world:/data/world:rw
-      - ${DEV_HOME}/run/fabric/world_nether:/data/world_nether:rw
-      - ${DEV_HOME}/run/fabric/world_the_end:/data/world_the_end:rw
+      - ./run/fabric/world:/data/world:rw
+      - ./run/fabric/world_nether:/data/world_nether:rw
+      - ./run/fabric/world_the_end:/data/world_the_end:rw
       # discord bot token location
       - /srv/cred/discord:/srv/cred/discord:r
       - fabric:/data:rw
@@ -181,7 +182,7 @@ services:
       timeout: 30s
       retries: 3
     volumes:
-      - ${DEV_HOME}/run/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql:r
+      - ./run/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql:r
       - database:/var/lib/mysql:rw
     ports:
       - "0.0.0.0:53306:3306"

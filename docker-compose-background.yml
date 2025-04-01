@@ -20,7 +20,7 @@ services:
       timeout: 30s
       retries: 3
     volumes:
-      - ${DEV_HOME}/run/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql:r
+      - ./run/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql:r
 
   rabbitmq:
     image: rabbitmq:3-management
