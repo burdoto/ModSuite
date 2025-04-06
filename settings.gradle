@@ -67,7 +67,7 @@ void includeMod(var key) {
     any = any | includeSubpart(key, 'core')
     any = any | includeSubpart(key, 'spigot')
     //any = any | includeSubpart(key, 'forge')
-    //any = any | includeSubpart(key, 'fabric')
+    any = any | includeSubpart(key, 'fabric')
 
     // extra modules
     any = any | includeSubpart(key, 'discord')

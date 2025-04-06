@@ -15,7 +15,7 @@ sourceSets {
     test.resources.srcDirs += sourceSet('test/resources')
 }
 
-configurations { main.extendsFrom create('include') }
+configurations { main.extendsFrom create('includeShadow') }
 
 java {
     var javaVersion = rootProject.property('java_version')
@@ -35,7 +35,7 @@ processResources {
 }
 */
 jar {
-    from configurations.named { str -> str == 'classes' || str == 'include' }
+    from configurations.named { str -> str == 'classes' || str == 'includeShadow' }
     //from configurations.named('mainSourceElements', 'include')
 }
 
