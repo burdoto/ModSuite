@@ -34,7 +34,7 @@ buildscript {
 
     dependencies {
         classpath 'de.undercouch:gradle-download-task:5.5.+'
-        classpath 'fabric-loom:fabric-loom.gradle.plugin:1.9.+'
+        classpath 'fabric-loom:fabric-loom.gradle.plugin:1.10.+'
         classpath 'com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:8.1.+'
         classpath 'org.gradle.toolchains.foojay-resolver:org.gradle.toolchains.foojay-resolver.gradle.plugin:0.9.+'
     }
