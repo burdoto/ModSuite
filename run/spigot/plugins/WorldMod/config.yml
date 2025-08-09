@@ -1,3 +1,8 @@
+database:
+  type: h2
+  url: jdbc:h2:file:./worldmod.h2
+  username: sa
+  password:
 wand:
   selection: minecraft:wooden_axe
   lookup: minecraft:bedrock
