@@ -67,7 +67,7 @@ void includeMod(var key) {
     any = any | includeSubpart(key, 'core')
     any = any | includeSubpart(key, 'spigot')
     //any = any | includeSubpart(key, 'forge')
-    any = any | includeSubpart(key, 'fabric')
+    //any = any | includeSubpart(key, 'fabric')
 
     // extra modules
     any = any | includeSubpart(key, 'discord')
@@ -95,7 +95,7 @@ includeMod('ChatMod')
 includeThirdparty('ChatMod', 'AurionChat', 'AurionChat')
 includeThirdparty('ChatMod', 'AurionChat:api', 'AurionChat/api')
 includeThirdparty('ChatMod', 'AurionChat:common', 'AurionChat/common')
-includeThirdparty('ChatMod', 'AurionChat:fabric', 'AurionChat/fabric')
+//includeThirdparty('ChatMod', 'AurionChat:fabric', 'AurionChat/fabric')
 
 includeMod('WorldMod')
 
