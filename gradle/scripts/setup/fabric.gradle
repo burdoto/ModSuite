@@ -22,6 +22,7 @@ dependencies {
 }
 
 shadowJar {
+    dependsOn project.tasks.findByName('remapJar')
     setProperty("zip64", true)
     //dependsOn project("$prefix:api").simplifyArtifact
 }
