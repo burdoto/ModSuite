@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-git pull --recurse-submodules
+./pull.sh
 
 # prepare buildscript dependency
 (cd japi && ./gradlew publishToMavenLocal && echo "japi was built and published locally") || (echo "Could not build japi" && exit 1)
