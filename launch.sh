@@ -9,4 +9,5 @@ git pull --recurse-submodules
 ./gradlew clean test
 
 # try to build
-./gradlew :ChatMod:discord:run || (echo "Could not execute DiscordBot" && exit 1)
+./gradlew :ChatMod:discord:installDist || (echo "Could not build DiscordBot" && exit 1)
+./ChatMod/discord/build/install/discord/bin/discord
