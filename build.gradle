@@ -47,4 +47,8 @@ subprojects { p ->
             it.from project(":ChatMod:AurionChat:api").sourceSets.main.output
         }
     }
+
+    tasks.findByName("installDist")?.configure {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 }
