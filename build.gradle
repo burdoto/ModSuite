@@ -49,6 +49,6 @@ subprojects { p ->
     }
 
     tasks.findByName("installDist")?.configure {
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 }
