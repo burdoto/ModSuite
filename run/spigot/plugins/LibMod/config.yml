@@ -1,5 +1,5 @@
 server:
-  name: '&dDEV-SP'
+  name: '&dDEV'
 
 database:
   type: MariaDB
@@ -9,4 +9,4 @@ database:
 
 messaging-service:
   type: rabbit-mq
-  uri: amqp://guest:guest@localhost:5672
+  uri: amqp://minecraft:w8xB*Wxcofjj@rabbitmq.ampznetwork.com:5672/ampz

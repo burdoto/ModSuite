@@ -1,5 +1,5 @@
 server:
-  name: '&dDEV-SP'
+  name: '&dDEV'
 
 modules:
   log: true
@@ -7,7 +7,7 @@ modules:
     autoReconnectDelay: 0
   rabbitmq:
     enable: true
-    rabbitUri: amqp://guest:guest@localhost:5672
+    rabbitUri: amqp://minecraft:w8xB*Wxcofjj@rabbitmq.ampznetwork.com:5672/ampz
 #include-bot#    discord:
 #include-bot#      enable: true
 #include-bot#      token: '@/srv/cred/discord/mc-server-integration.txt'

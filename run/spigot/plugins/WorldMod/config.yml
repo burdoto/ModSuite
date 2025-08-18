@@ -1,16 +1,10 @@
 database:
-  type: h2
-  url: jdbc:h2:file:./worldmod.h2
-  username: sa
-  password:
+  type: MariaDB
+  url: jdbc:mariadb://127.0.0.1:3306/dev
+  username: dev
+  password: dev
 wand:
   selection: minecraft:wooden_axe
   lookup: minecraft:bedrock
 logging:
   skip-non-player: true
-  skip:
-    - move
-    - interact
-    - grow
-    - spread
-    - spawn.mobs
