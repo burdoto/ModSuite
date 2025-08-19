@@ -3,10 +3,15 @@ apply plugin: 'junit'
 repositories.mavenCentral()
 
 dependencies {
-    testImplementation 'org.junit:junit:+'
     testImplementation 'org.easymock:easymock:+'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:+'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:+'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:+'
+    testCompileOnly 'junit:junit:+'
 }
 
 build.dependsOn test
 
-test { useJUnit() }
+test {
+    useJUnitPlatform()
+}

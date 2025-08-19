@@ -13,12 +13,13 @@ subprojects.findAll { it.plugins.hasPlugin('java') && it.path.split(':').length 
         if (p.name == 'core') {
             d.api project(":$p.parent.name:api")
 
-            d.api project(':BanMod:api')
-            d.api project(':WorldMod:api')
-            d.api project(':ChatMod:api')
-
-            if (p.parent.name != 'LibMod')
+            if (p.parent.name != 'LibMod') {
                 d.api project(':LibMod:core')
+
+                d.api project(':BanMod:api')
+                d.api project(':WorldMod:api')
+                d.api project(':ChatMod:api')
+            }
         }
         if (p.name == 'spigot') {
             d.api project(":$p.parent.name:core")
