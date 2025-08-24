@@ -8,5 +8,5 @@
 # cleanup & run tests to show results of current build
 ./gradlew clean test
 
-# try to build
-./gradlew prepareSpigotTest prepareFabricTest || (echo "Could not build ModSuite Files" && exit 1)
+# try to build & publish
+./gradlew prepareSpigotTest prepareFabricTest publishToMavenLocal || (echo "Could not build ModSuite Files" && exit 1)
