@@ -18,10 +18,14 @@ version = 1
 gradlePlugin.plugins {
     register('buildscripts') {
         id = 'com.ampznetwork.modsuite.buildscripts'
+        displayName = 'AMPZ Buildscripts'
+        description = 'Helper Scripts for building Minecraft Plugins and Mods'
         implementationClass = 'com.ampznetwork.modsuite.buildscripts.ModSuiteBuildHelper'
     }
     register('spigotResourceGenerator') {
         id = 'org.comroid.codegen.spigot'
+        displayName = 'Spigot Plugin Code Generation'
+        tags.set(['codegen', 'spigot'])
         implementationClass = 'org.comroid.codegen.spigot.SpigotResourceGeneratorPlugin'
     }
 }
