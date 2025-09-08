@@ -12,9 +12,6 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
-
-    includeBuild('japi')
-    includeBuild('gradle') { name = 'buildscripts' }
 }
 
 buildscript {
@@ -84,6 +81,8 @@ def includeThirdparty(parent, name, path) {
     //println "$thirdparty -> $thirdparty.projectDir"
     return thirdparty
 }
+
+include(':japi')
 
 includeMod('LibMod')
 
