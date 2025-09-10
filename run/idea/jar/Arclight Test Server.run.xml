@@ -10,8 +10,6 @@
     </envs>
     <method v="2">
         <option name="RunConfigurationTask" enabled="false" run_configuration_name="Backend for Host" run_configuration_type="docker-deploy"/>
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="publishToMavenLocal" externalProjectPath="$PROJECT_DIR$/japi" vmOptions=""
-                scriptParameters=""/>
         <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareSpigotTest" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters=""/>
     </method>
   </configuration>
