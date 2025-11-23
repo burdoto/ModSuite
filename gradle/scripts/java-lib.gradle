@@ -5,15 +5,15 @@ apply plugin: 'idea'
 def sourceSet(end) {
     if (findProperty("$project.path:localSources") == 'true' || parent == null)
         return files("$projectDir/src/$end");
-    return files("$rootDir/$parent.name/src/$name/$end")
+    return files("$projectDir/../../$parent.name/src/$name/$end")
 }
 
 sourceSets {
-    main.java.srcDirs += sourceSet('main/java')
-    test.java.srcDirs += sourceSet('test/java')
+    main.java.srcDirs += sourceSet("main/java")
+    test.java.srcDirs += sourceSet("test/java")
 
-    main.resources.srcDirs += sourceSet('main/resources')
-    test.resources.srcDirs += sourceSet('test/resources')
+    main.resources.srcDirs += sourceSet("main/resources")
+    test.resources.srcDirs += sourceSet("test/resources")
 }
 
 configurations { main.extendsFrom create('includeShadow') }
